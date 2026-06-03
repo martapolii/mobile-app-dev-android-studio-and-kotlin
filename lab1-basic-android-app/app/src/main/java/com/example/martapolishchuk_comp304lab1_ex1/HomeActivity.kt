@@ -13,6 +13,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.martapolishchuk_comp304lab1_ex1.ui.theme.MartaPolishchuk_COMP304Lab1_Ex1Theme
 
+/* HOME ACTIVITY
+- display events in Lazy Column
+- each event: name, location, date, indication whether upcoming or completed
+- FAB: Add Event
+
+JetPack Components:
+- Lazy column for displaying list
+- Card for each event
+- FAB: add events
+
+Event data class
+ */
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
