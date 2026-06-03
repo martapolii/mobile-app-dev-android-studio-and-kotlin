@@ -6,11 +6,14 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Card
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.martapolishchuk_comp304lab1_ex1.ui.theme.MartaPolishchuk_COMP304Lab1_Ex1Theme
 
 /* HOME ACTIVITY
@@ -31,11 +34,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MartaPolishchuk_COMP304Lab1_Ex1Theme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    HomeActivity()
                 }
             }
         }
@@ -43,17 +42,38 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+fun HomeActivity(){
+    // Lazy Column for displaying the list of events
+    LazyColumn(
+        modifier = Modifier.padding(16.dp)
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MartaPolishchuk_COMP304Lab1_Ex1Theme {
-        Greeting("Android")
+    ) {
+        // Cards to display each event
+        foreach event in EventList{
+            // create a card w the associated info
+        }
+        Card(
+
+        ) {
+            Text("Event Name: $eventName")
+            Text("Event Location: $eventLocation")
+            Text("Event Date: $eventDate")
+        }
+
     }
 }
+
+// EVENT DATA CLASS
+data class Event(
+    // object parameters
+    val eventName: String,
+    val eventLocation: String,
+    val eventDate: String
+)
+private val eventList = listOf(
+    // list storing event info
+    Event("Marta's Birthday Party", "Wonderland", "08/08/2026"),
+    Event("Event 2" "Location 2", "Date 2"),
+    Event("Event 3", "Location 3", "Date 3")
+)
+
