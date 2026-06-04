@@ -1,5 +1,6 @@
 package com.example.martapolishchuk_comp304lab1_ex1
 
+import android.app.usage.UsageEvents
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -55,6 +56,45 @@ private val eventList = listOf(
     Event("Event 2", "Location 2", "Date 2"),
     Event("Event 3", "Location 3", "Date 3")
 )
+
+// APP ---------------------------------------------------------------------------------------------
+@Composable
+fun App() {
+
+    // use variables to store states that will be passed into the 3 activities
+    var currentScreen by remember { mutableStateOf("home") }
+    var events by remember { mutableStateOf(mutableListOf<Event>()) }
+    var selectedEventIndex by remember { mutableStateOf(-1) }
+
+    when (currentScreen) {
+
+        "home" -> HomeActivity(
+            events = events,
+            onAddClick = { currentScreen = "add" },
+            onEventClick = { index ->
+                selectedEventIndex = index
+                currentScreen = "edit"
+            }
+        )
+
+        "add" -> AddEventActivityScreen(
+            onSave = { newEvent ->
+                events.add(newEvent)
+                currentScreen = "home"
+            },
+            onBack = { currentScreen = "home" }
+        )
+
+        "edit" -> ViewEditEventActivityScreen(
+            event = events[selectedEventIndex],
+            onSave = { updatedEvent ->
+                events[selectedEventIndex] = updatedEvent
+                currentScreen = "home"
+            },
+            onBack = { currentScreen = "home" }
+        )
+    }
+}
 
 /* HOME ACTIVITY -----------------------------------------------------------------------------------
 - display events in Lazy Column
