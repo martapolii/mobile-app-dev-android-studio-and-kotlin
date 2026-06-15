@@ -11,37 +11,30 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ViewModelProvider
 import com.example.martapolishchuk_comp304lab2_ex1.ui.theme.MartaPolishchuk_COMP304Lab2_Ex1Theme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        val repository = CareerItemRepositoryImpl()
+        val factory = CareerItemViewModelFactory(repository) // passing repository object as constructor confirms dependency injection was implemented
+        val viewModel = ViewModelProvider(this, factory).get(CareerItemViewModel::class.java)
+
         setContent {
             MartaPolishchuk_COMP304Lab2_Ex1Theme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                HomeScreen(viewModel = viewModel())
+
                 }
             }
         }
     }
-}
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+fun HomeScreen(viewModel: CareerItemViewModel){}
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MartaPolishchuk_COMP304Lab2_Ex1Theme {
-        Greeting("Android")
-    }
-}
+
+
+
