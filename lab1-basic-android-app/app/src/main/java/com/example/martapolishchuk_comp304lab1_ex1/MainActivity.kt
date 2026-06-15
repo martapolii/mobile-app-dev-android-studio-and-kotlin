@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -25,8 +27,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -73,10 +75,11 @@ fun App() {
 
     // use variables to store states that will be passed into the 3 activities
     var currentScreen by remember { mutableStateOf("home") }
+
     var events = remember { mutableStateListOf(
-        Event("COMP304 Lab", "Centennial College", "2026-06-09"),
-        Event("COMP254 Lecture", "Centennial College", "2026-05-27"),
-        Event("COMP254 Lab", "Centennial College", "2026-05-28")
+        Event("COMP304 Lab", "Centennial College", "2026-06-09", false),
+        Event("COMP254 Lecture", "Centennial College", "2026-05-27", true),
+        Event("COMP254 Lab", "Centennial College", "2026-05-28", true)
     ) }
     var selectedEventIndex by remember { mutableIntStateOf(-1) }
 
@@ -95,8 +98,7 @@ fun App() {
             onSave = { newEvent ->
                 events.add(newEvent)
                 currentScreen = "home"
-            },
-            onBack = { currentScreen = "home" }
+            }
         )
 
         "edit" -> {
@@ -106,8 +108,7 @@ fun App() {
                     onSave = { updatedEvent ->
                         events[selectedEventIndex] = updatedEvent
                         currentScreen = "home"
-                    },
-                    onBack = { currentScreen = "home" }
+                    }
                 )
             }
         }
@@ -141,6 +142,7 @@ fun HomeActivity(
                 title = { Text("All Events") },
             )
         },
+        // FLOATING ACTION BUTTON
         floatingActionButton = {
             // add event button
             FloatingActionButton(
@@ -151,32 +153,45 @@ fun HomeActivity(
                 Text("+")
             }
         } // floatingActionButton
+
     ) { paddingValues ->
+        // LAZY COLUMN
         LazyColumn(
             modifier = Modifier
                 .padding(paddingValues)
                 .padding(16.dp)
                 .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
         ){
             itemsIndexed(events) { index, event ->
+                // CARDS to display details of each event in list
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 6.dp)
-                        .clickable { onEventClick(index) }
-                ) {
+                        .padding(vertical = 8.dp)
+                        .clickable { onEventClick(index) },
+                    shape = RoundedCornerShape(16.dp)
+                ) { // each field stacked on top of the other in a column
                     Column(
-                        modifier = Modifier.padding(12.dp)
+                        modifier = Modifier.padding(16.dp)
                     ) {
-                        Text("Event name: " + event.eventName)
-                        Text("Location: " + event.eventLocation)
-                        Text("Date: " + event.eventDate)
-
                         Text(
-                            if (event.completedEvent)
-                                "Status: Completed"
-                            else
-                                "Status: Upcoming"
+                            event.eventName,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                        Text("Location:  ${event.eventLocation}",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                        Text("Date:  ${ event.eventDate}",
+                            style = MaterialTheme.typography.bodyMedium)
+
+                        // created a value to store the colour of the status toggle
+                        val statusColor = if (event.completedEvent) Color(0xFF009688)
+                                            else Color(0xFFD05B52)
+                        Text(
+                            text = if (event.completedEvent) "Status: Completed" else "Status: Upcoming",
+                            style = MaterialTheme.typography.labelMedium,
+                            color = statusColor
                         )
                     }
                 }
@@ -204,8 +219,7 @@ JetPack components:
 @Composable
 fun AddEventActivityScreen(
     // lambda parameters (function being passes into another function):
-    onSave: (Event) -> Unit, // accepts an event and returns nothing (unit) - tells you what to do when user saves
-    onBack: () -> Unit // takes no parameters, returns nothing - tells you what to do when user goes back
+    onSave: (Event) -> Unit // accepts an event and returns nothing (unit) - tells you what to do when user saves
 ) {
     //  need variables to store the values of the inputs for name, location & date - MAY NEED TO PUT THESE IN THE DATA CLASS!!!
     var eventName by remember { mutableStateOf("") }
@@ -259,16 +273,16 @@ fun AddEventActivityScreen(
 
             // SAVE BUTTON
             Button(
-                onClick = { onSave(Event(eventName, eventLocation, eventDate)) } // onClick an event object is created, onSave is called
-            ) {
-                Text("Save")
+                onClick = { onSave(Event(eventName, eventLocation, eventDate)) }, // onClick an event object is created, onSave is called
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                shape = RoundedCornerShape(12.dp)
+                ) {
+                Text("Save New Event")
             }
         } // column
-
     }
-
-
-
 }
 
 /*
@@ -288,8 +302,7 @@ JetPack components:
 @Composable
 fun ViewEditEventActivityScreen(
     event: Event,
-    onSave: (Event) -> Unit,
-    onBack: () -> Unit
+    onSave: (Event) -> Unit
 ){
     var eventName by remember { mutableStateOf(event.eventName) }
     var eventLocation by remember { mutableStateOf(event.eventLocation) }
@@ -302,37 +315,75 @@ fun ViewEditEventActivityScreen(
                 title ={Text("View / Edit Event")},
             )
         } // topBar
+
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .padding(paddingValues)
-                .padding(16.dp)
                 .fillMaxSize()
         ) {
-            // Text fields for event name, location, date
-            OutlinedTextField( value = eventName , onValueChange = {eventName = it}, label = {Text("Event name:")})
-            OutlinedTextField(value = eventLocation, onValueChange = {eventLocation = it}, label = {Text("Event location:")})
-            OutlinedTextField(value = eventDate, onValueChange = {eventDate = it}, label = {Text("Event date:")})
-
-            Row(
+            Card(
                 modifier = Modifier
                     .padding(16.dp)
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Start
             ) {
-                Text(text="Event Completed: ")
-                // Switch to indicate whether event was completed or not
-                Switch(
-                    checked = completedEvent,
-                    onCheckedChange = {completedEvent = it}
+                // Text fields for event name, location, date
+                OutlinedTextField(
+                    value = eventName ,
+                    onValueChange = {eventName = it},
+                    label = {Text("Event name:")},
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    shape = RoundedCornerShape(12.dp)
                 )
-            } // Row
+                OutlinedTextField(
+                    value = eventLocation,
+                    onValueChange = {eventLocation = it},
+                    label = {Text("Event location:")},
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    shape = RoundedCornerShape(12.dp)
+                )
+                OutlinedTextField(
+                    value = eventDate,
+                    onValueChange = {eventDate = it},
+                    label = {Text("Event date:")},
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    shape = RoundedCornerShape(12.dp)
+                )
+                Row(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Start
+                ) {
+
+                    // Switch to indicate whether event was completed or not
+                    Text(text="Event Completed: ")
+
+                    Switch(
+                        checked = completedEvent,
+                        onCheckedChange = {completedEvent = it},
+                        colors = SwitchDefaults.colors(
+                            checkedThumbColor = Color(0xFF009688),
+                            uncheckedThumbColor = Color(0xFFD05B52),
+                        )
+                    )
+                } // Row
+            } // card
 
             // Save Button
-            Button(onClick = {onSave(Event(eventName, eventLocation, eventDate, completedEvent))}
+            Button(onClick = {onSave(Event(eventName, eventLocation, eventDate, completedEvent))},
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                shape = RoundedCornerShape(12.dp)
             ) {
-                Text("Save")
+                Text("Save Event")
             }
         } // Column
     }
