@@ -6,7 +6,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 
 // Created a reusable composable function for the Top App Bar to use on all screens - will contain the app title
@@ -18,7 +20,17 @@ fun CommonTopBar(
     onBackClick: (() -> Unit)? = null // optional back button -> only appears if 'onBackClick' action is defined in the activity
 ){
     CenterAlignedTopAppBar(
-        title = { Text(text = title) },
+        title = {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleLarge
+            )
+        },
+        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
+        ),
         // back button
         navigationIcon = {
             if (onBackClick != null) {

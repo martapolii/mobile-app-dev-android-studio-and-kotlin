@@ -1,129 +1,98 @@
 package com.example.martapolishchuk_comp304lab2_ex1.screens.edit
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Switch
-import androidx.compose.material3.SwitchDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.martapolishchuk_comp304lab2_ex1.data.CareerItem
+import com.example.martapolishchuk_comp304lab2_ex1.data.careerCategories
+import com.example.martapolishchuk_comp304lab2_ex1.data.careerStatuses
+import com.example.martapolishchuk_comp304lab2_ex1.screens.components.CareerItemForm
 import com.example.martapolishchuk_comp304lab2_ex1.screens.components.CommonTopBar
+import com.example.martapolishchuk_comp304lab2_ex1.screens.components.validateCareerItemInput
 
 /*
-VIEW/EDIT CAREER EVEN ITEM ---------------------------------------------------------------------------
+VIEW/EDIT CAREER ITEM ---------------------------------------------------------------------------
 - opens when career item is clicked on Home Screen
 - pre-populated text fields
 - button: Save - saves changes & returns to Home Screen
 
  */
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditCareerItemScreen(
-    event: CareerItem,
-    onSave: (CareerItem) -> Unit
+    careerItem: CareerItem,
+    onBackClick: () -> Unit,
+    viewModel: EditCareerItemViewModel
 ){
-    var title by remember { mutableStateOf("") }
-    var category by remember { mutableStateOf("") }
-    var progressStatus by remember { mutableStateOf("") }
-    var completionIndicator by remember { mutableStateOf(false) }
+    var title by rememberSaveable(careerItem.id) { mutableStateOf(careerItem.title) }
+    var description by rememberSaveable(careerItem.id) { mutableStateOf(careerItem.description) }
+    var category by rememberSaveable(careerItem.id) { mutableStateOf(careerItem.category) }
+    var startDate by rememberSaveable(careerItem.id) { mutableStateOf(careerItem.startDate) }
+    var targetCompletionDate by rememberSaveable(careerItem.id) { mutableStateOf(careerItem.targetCompletionDate) }
+    var status by rememberSaveable(careerItem.id) { mutableStateOf(careerItem.status) }
+    var progressPercentage by rememberSaveable(careerItem.id) { mutableStateOf(careerItem.progressPercentage.toString()) }
+    var validationMessage by rememberSaveable(careerItem.id) { mutableStateOf<String?>(null) }
 
     Scaffold(
         topBar = {
-            CommonTopBar(title = "Student Career Development Hub")
+            CommonTopBar(
+                title = "View / Edit Career Item",
+                onBackClick = onBackClick
+            )
         } // topBar
 
     ) { paddingValues ->
-        Column(
+        CareerItemForm(
+            title = title,
+            onTitleChange = { title = it },
+            description = description,
+            onDescriptionChange = { description = it },
+            category = category,
+            categoryOptions = careerCategories,
+            onCategoryChange = { category = it },
+            startDate = startDate,
+            onStartDateChange = { startDate = it },
+            targetCompletionDate = targetCompletionDate,
+            onTargetCompletionDateChange = { targetCompletionDate = it },
+            status = status,
+            statusOptions = careerStatuses,
+            onStatusChange = { status = it },
+            progressPercentage = progressPercentage,
+            onProgressPercentageChange = { progressPercentage = it },
+            validationMessage = validationMessage,
+            saveButtonText = "save updates",
+            onSaveClick = {
+                validationMessage = validateCareerItemInput(
+                    title = title,
+                    description = description,
+                    startDate = startDate,
+                    targetCompletionDate = targetCompletionDate,
+                    progressPercentage = progressPercentage
+                )
+
+                if (validationMessage == null) {
+                    viewModel.updateCareerItem(
+                        id = careerItem.id,
+                        title = title,
+                        description = description,
+                        category = category,
+                        startDate = startDate,
+                        targetCompletionDate = targetCompletionDate,
+                        status = status,
+                        progressPercentage = progressPercentage.toInt()
+                    )
+                    onBackClick()
+                }
+            },
             modifier = Modifier
                 .padding(paddingValues)
-                .fillMaxSize()
-        ) {
-            Card(
-                modifier = Modifier
-                    .padding(16.dp)
-            ) {
-                // Text fields for viewing and editing career item details
-                // title
-                OutlinedTextField(
-                    value = title ,
-                    onValueChange = {title = it},
-                    label = {Text("Title")},
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    shape = RoundedCornerShape(12.dp)
-                )
-                // category - ** CHANGE TO DROP DOWN **
-                OutlinedTextField(
-                    value = category ,
-                    onValueChange = {category = it},
-                    label = {Text("Category:")},
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    shape = RoundedCornerShape(12.dp)
-                )
-               // progress status - ** CHANGE TO DROP DOWN **
-                OutlinedTextField(
-                    value = progressStatus ,
-                    onValueChange = {progressStatus = it},
-                    label = {Text("Event date:")},
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    shape = RoundedCornerShape(12.dp)
-                )
-                Row(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Start
-                ) {
-
-                    // Switch to indicate whether career item was completed or not
-                    Text(text="Career Item Completed: ")
-
-                    Switch(
-                        checked = completionIndicator,
-                        onCheckedChange = {completionIndicator = it},
-                        colors = SwitchDefaults.colors(
-                            checkedThumbColor = Color(0xFF009688),
-                            uncheckedThumbColor = Color(0xFFD05B52),
-                        )
-                    )
-                } // Row
-            } // card
-
-            // Save Button
-            Button(onClick = {onSave(CareerItem(title, category, progressStatus, completionIndicator))},
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                shape = RoundedCornerShape(12.dp)
-            ) {
-                Text("Save Event")
-            }
-        } // Column
+                .padding(16.dp)
+        )
     }
 }
