@@ -1,4 +1,4 @@
-package com.example.martapolishchuk_comp304lab2_ex1.edit
+package com.example.martapolishchuk_comp304lab2_ex1.screens.edit
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,40 +20,36 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.martapolishchuk_comp304lab2_ex1.data.CareerItem
+import com.example.martapolishchuk_comp304lab2_ex1.screens.components.CommonTopBar
 
 /*
-VIEW/EDIT EVENT ACTIVITY ---------------------------------------------------------------------------
-- opens when event is clicked on Home Activity Page
-- pre-populated text fields with: name, location, date
-- marked as completed or upcoming
-- button: Save - saves changes & returns to Home Activity
+VIEW/EDIT CAREER EVEN ITEM ---------------------------------------------------------------------------
+- opens when career item is clicked on Home Screen
+- pre-populated text fields
+- button: Save - saves changes & returns to Home Screen
 
-JetPack components:
-- pre-filled Text Fields
-- checkbox or switch to mark event completion status
-- button: Save
  */
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditCareerItemScreen(
-    event: Event,
-    onSave: (Event) -> Unit
+    event: CareerItem,
+    onSave: (CareerItem) -> Unit
 ){
-    var eventName by remember { mutableStateOf(event.eventName) }
-    var eventLocation by remember { mutableStateOf(event.eventLocation) }
-    var eventDate by remember { mutableStateOf(event.eventDate) }
-    var completedEvent by remember { mutableStateOf(event.completedEvent) }
+    var title by remember { mutableStateOf("") }
+    var category by remember { mutableStateOf("") }
+    var progressStatus by remember { mutableStateOf("") }
+    var completionIndicator by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
-                title ={Text("View / Edit Event")},
-            )
+            CommonTopBar(title = "Student Career Development Hub")
         } // topBar
 
     ) { paddingValues ->
@@ -66,28 +62,31 @@ fun EditCareerItemScreen(
                 modifier = Modifier
                     .padding(16.dp)
             ) {
-                // Text fields for event name, location, date
+                // Text fields for viewing and editing career item details
+                // title
                 OutlinedTextField(
-                    value = eventName ,
-                    onValueChange = {eventName = it},
-                    label = {Text("Event name:")},
+                    value = title ,
+                    onValueChange = {title = it},
+                    label = {Text("Title")},
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp),
                     shape = RoundedCornerShape(12.dp)
                 )
+                // category - ** CHANGE TO DROP DOWN **
                 OutlinedTextField(
-                    value = eventLocation,
-                    onValueChange = {eventLocation = it},
-                    label = {Text("Event location:")},
+                    value = category ,
+                    onValueChange = {category = it},
+                    label = {Text("Category:")},
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp),
                     shape = RoundedCornerShape(12.dp)
                 )
+               // progress status - ** CHANGE TO DROP DOWN **
                 OutlinedTextField(
-                    value = eventDate,
-                    onValueChange = {eventDate = it},
+                    value = progressStatus ,
+                    onValueChange = {progressStatus = it},
                     label = {Text("Event date:")},
                     modifier = Modifier
                         .fillMaxWidth()
@@ -102,12 +101,12 @@ fun EditCareerItemScreen(
                     horizontalArrangement = Arrangement.Start
                 ) {
 
-                    // Switch to indicate whether event was completed or not
-                    Text(text="Event Completed: ")
+                    // Switch to indicate whether career item was completed or not
+                    Text(text="Career Item Completed: ")
 
                     Switch(
-                        checked = completedEvent,
-                        onCheckedChange = {completedEvent = it},
+                        checked = completionIndicator,
+                        onCheckedChange = {completionIndicator = it},
                         colors = SwitchDefaults.colors(
                             checkedThumbColor = Color(0xFF009688),
                             uncheckedThumbColor = Color(0xFFD05B52),
@@ -117,7 +116,7 @@ fun EditCareerItemScreen(
             } // card
 
             // Save Button
-            Button(onClick = {onSave(Event(eventName, eventLocation, eventDate, completedEvent))},
+            Button(onClick = {onSave(CareerItem(title, category, progressStatus, completionIndicator))},
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
