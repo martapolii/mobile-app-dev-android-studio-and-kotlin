@@ -36,7 +36,7 @@ import com.example.midtermcandytemplate.viewmodel.HomeViewModel
 import com.example.midtermcandytemplate.viewmodel.HomeViewModelFactory
 
 /**
- * Launcher activity for the template.
+ * Launcher activity for this template.
  *
  * This activity shows the reusable list layout and opens the detail activity using
  * a real Intent with extras.

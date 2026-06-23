@@ -15,10 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 /**
- * This composable is not linked into the running UI on purpose.
+ * *This composable is not linked into the running UI*
  *
- * Keep it as a study shelf of extra Material 3 widgets you might want to copy
- * into a screen during the midterm.
+ *  extra Material 3 widgets pre-made to use 
  */
 @Composable
 fun OptionalStudyComponents(

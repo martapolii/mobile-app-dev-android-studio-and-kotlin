@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.asStateFlow
 /**
  * In-memory repository implementation.
  *
- * This is intentionally simple and easy to study. It behaves like a tiny fake
+ *  It behaves like a tiny fake
  * database so the app can add, edit, and display items without Room or networking.
  */
 class CandyRepositoryImpl : CandyRepository {

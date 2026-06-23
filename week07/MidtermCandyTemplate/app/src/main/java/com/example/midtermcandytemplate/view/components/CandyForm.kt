@@ -39,8 +39,6 @@ import com.example.midtermcandytemplate.model.candyTypeOptions
 /**
  * Reusable form for both create and edit flows.
  *
- * The comments stay directly above each major control so you can quickly copy the
- * exact Jetpack Compose element you need during the midterm.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -71,7 +69,7 @@ fun CandyForm(
 
         // Text
         Text(
-            text = "This screen is intentionally packed with study-ready controls.",
+            text = "PLaceholder text",
             style = MaterialTheme.typography.bodyMedium
         )
 
@@ -92,13 +90,13 @@ fun CandyForm(
                     // Image
                     Image(
                         painter = painterResource(id = R.drawable.ic_launcher_foreground),
-                        contentDescription = "Placeholder candy image",
+                        contentDescription = "Placeholder image",
                         modifier = Modifier.size(96.dp)
                     )
 
                     // Text
                     Text(
-                        text = "Replace this placeholder image with your own candy image later.",
+                        text = "PLaceholde img text.",
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
@@ -268,7 +266,7 @@ fun CandyForm(
 }
 
 /**
- * Reusable text field wrapper for quick copy/paste.
+ * Reusable text field wrapper 
  */
 @Composable
 fun StudyTextField(

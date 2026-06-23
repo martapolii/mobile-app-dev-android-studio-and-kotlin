@@ -4,7 +4,7 @@ package com.example.midtermcandytemplate.model
  * Main data model for the template.
  *
  * The fields stay intentionally simple so you can swap "candy" for any other
- * topic during the midterm without rewriting the whole app structure.
+ * topic
  */
 data class Candy(
     val id: Int,
@@ -42,7 +42,7 @@ enum class DetailScreenMode {
 }
 
 /**
- * Radio button options for the sample app.
+ * Radio button options 
  */
 val candyTypeOptions = listOf(
     "Chocolate",
@@ -51,7 +51,7 @@ val candyTypeOptions = listOf(
 )
 
 /**
- * Segmented button options for the sample app.
+ * Segmented button options 
  */
 val candyFlavorProfileOptions = listOf(
     "Classic",
@@ -60,7 +60,7 @@ val candyFlavorProfileOptions = listOf(
 )
 
 /**
- * A few starter items make the LazyColumn useful as soon as the app launches.
+ * A few pre-populated items to make the LazyColumn useful when starting
  */
 val starterCandies = listOf(
     Candy(
@@ -93,7 +93,7 @@ val starterCandies = listOf(
 )
 
 /**
- * Converts a saved Candy object into editable form state.
+ * Converts a saved Candy object into editable form state
  */
 fun Candy.toFormState(): CandyFormState {
     return CandyFormState(
@@ -108,7 +108,7 @@ fun Candy.toFormState(): CandyFormState {
 }
 
 /**
- * Converts editable form state back into a saved Candy object.
+ * Converts editable form state back into a saved Candy object
  */
 fun CandyFormState.toCandy(idOverride: Int = id): Candy {
     return Candy(
@@ -123,7 +123,7 @@ fun CandyFormState.toCandy(idOverride: Int = id): Candy {
 }
 
 /**
- * Small validation helper for create and edit flows.
+ * Small validation helper for create and edit flows
  */
 fun validateCandyInput(
     name: String,

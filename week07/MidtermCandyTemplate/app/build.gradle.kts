@@ -50,7 +50,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
-    // Lets each activity create a ViewModel using the same week 5/6 patterns.
+    // Supports the same ViewModel + factory MVVM pattern used in week 5.
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0")
 
     // Compose Foundation contains layout pieces such as LazyColumn, Row, Column, and Box.

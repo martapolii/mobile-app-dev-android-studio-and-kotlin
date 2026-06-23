@@ -14,8 +14,6 @@ import androidx.compose.runtime.Composable
 /**
  * Reusable top bar used by every activity.
  *
- * This matches the reusable top bar idea from your earlier lab so each screen keeps
- * the same structure and styling.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

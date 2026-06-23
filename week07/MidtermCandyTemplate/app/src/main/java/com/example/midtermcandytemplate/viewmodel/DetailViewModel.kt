@@ -106,7 +106,7 @@ class DetailViewModel(
 }
 
 /**
- * Factory for the detail screen constructor injection.
+ * Factory for the detail screen constructor injection used in the week 5 MVVM examples.
  */
 class DetailViewModelFactory(
     private val repository: CandyRepository

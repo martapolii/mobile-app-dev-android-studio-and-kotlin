@@ -33,9 +33,9 @@ import com.example.midtermcandytemplate.viewmodel.DetailViewModel
 import com.example.midtermcandytemplate.viewmodel.DetailViewModelFactory
 
 /**
- * Second real activity in the template.
+ * Second activity in the template
  *
- * This receives Intent extras, loads one candy item, and lets you edit it.
+ * This receives Intent extras, loads one candy item, and lets you edit it
  */
 class DetailActivity : ComponentActivity() {
 
@@ -46,7 +46,6 @@ class DetailActivity : ComponentActivity() {
         val repository = CandyRepositoryProvider.repository
         val factory = DetailViewModelFactory(repository)
         val detailViewModel = ViewModelProvider(this, factory)[DetailViewModel::class.java]
-
         val candyId = intent.getIntExtra(EXTRA_CANDY_ID, -1)
         val screenMode = readScreenMode()
 
@@ -76,9 +75,9 @@ class DetailActivity : ComponentActivity() {
         const val EXTRA_SCREEN_MODE = "extra_screen_mode"
 
         /**
-         * For midterm speed this template passes the candy id and screen mode.
+         * This template passes the candy id and screen mode.
          *
-         * If you ever need the full model instead, you can make Candy Parcelable and
+         * If you later want the full model instead, you can make Candy Parcelable and
          * place the object into the Intent here.
          */
         fun createIntent(
@@ -132,7 +131,7 @@ fun DetailScreen(
             item {
                 // Text
                 Text(
-                    text = "This screen demonstrates real activity navigation plus editable Compose controls.",
+                    text = "This screen shows navigation plus editable Compose controls",
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
@@ -184,7 +183,7 @@ fun DetailScreen(
 
             item {
                 // Optional Material 3 shelf.
-                // Uncomment the next line when you want extra component samples on screen.
+                // (uncomment next line to add extra components on screen)
                 // OptionalStudyComponents()
             }
         }

@@ -27,10 +27,9 @@ import com.example.midtermcandytemplate.viewmodel.CreateCandyViewModel
 import com.example.midtermcandytemplate.viewmodel.CreateCandyViewModelFactory
 
 /**
- * Optional third activity scaffold.
+ * Optional third activity scaffold
  *
- * It is included for study purposes and compiles as a real activity, but it is not
- * linked from HomeActivity so your primary app flow still stays focused on two screens.
+ * compiles as a real activity, but is not linked from HomeActivity
  */
 class CreateCandyActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

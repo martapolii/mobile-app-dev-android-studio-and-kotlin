@@ -74,7 +74,7 @@ class CreateCandyViewModel(
 }
 
 /**
- * Factory for the optional create activity constructor injection.
+ * Factory for the optional create activity constructor injection used in the week 5 MVVM examples.
  */
 class CreateCandyViewModelFactory(
     private val repository: CandyRepository

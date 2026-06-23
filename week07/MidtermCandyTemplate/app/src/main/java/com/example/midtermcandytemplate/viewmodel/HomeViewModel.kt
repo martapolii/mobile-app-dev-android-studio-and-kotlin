@@ -12,13 +12,21 @@ import kotlinx.coroutines.flow.StateFlow
  * Its job is simple: expose the candy list from the repository to the home activity.
  */
 class HomeViewModel(
-    repository: CandyRepository
+    private val repository: CandyRepository
 ) : ViewModel() {
     val candies: StateFlow<List<Candy>> = repository.getCandies()
+
+    fun updateCandy(candy: Candy) {
+        repository.updateCandy(candy)
+    }
+
+    fun addCandy(candy: Candy) {
+        repository.addCandy(candy)
+    }
 }
 
 /**
- * Factory keeps the week 5/6 constructor injection pattern in place.
+ * Factory keeps the week 5 MVVM constructor injection pattern in place.
  */
 class HomeViewModelFactory(
     private val repository: CandyRepository
