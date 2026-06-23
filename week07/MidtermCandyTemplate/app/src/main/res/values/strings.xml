@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Midterm Candy Template</string>
+    <string name="title_home">Candy Shelf</string>
+    <string name="title_candy_detail">Candy Detail</string>
+    <string name="title_create_candy">Create Candy Template</string>
+</resources>

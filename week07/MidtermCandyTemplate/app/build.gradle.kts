@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.vinay.retrofitjsonapp"
+    namespace = "com.example.midtermcandytemplate"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.vinay.retrofitjsonapp"
+        applicationId = "com.example.midtermcandytemplate"
         minSdk = 28
         targetSdk = 35
         versionCode = 1
@@ -50,20 +50,14 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
-    // Week 6 lab dependencies.
-    // runtime-livedata appears in the handout; this project uses StateFlow,
-    // but keeping it here makes the setup easy to compare with the lab steps.
-    implementation("androidx.compose.runtime:runtime-livedata")
-
-    // Lets a composable screen obtain and talk to its ViewModel.
+    // Lets each activity create a ViewModel using the same week 5/6 patterns.
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0")
 
-    // Compose Foundation contains layout pieces such as LazyColumn.
+    // Compose Foundation contains layout pieces such as LazyColumn, Row, Column, and Box.
     implementation("androidx.compose.foundation:foundation")
 
-    // Retrofit downloads JSON data and Gson converts it into Kotlin objects.
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    // Material icons keep image buttons, back arrows, and quick visual cues simple.
+    implementation("androidx.compose.material:material-icons-extended")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
