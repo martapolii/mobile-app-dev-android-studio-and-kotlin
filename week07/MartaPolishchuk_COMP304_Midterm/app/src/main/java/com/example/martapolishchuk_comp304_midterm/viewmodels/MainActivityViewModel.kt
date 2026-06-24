@@ -11,15 +11,15 @@ import kotlinx.coroutines.flow.StateFlow
 class HomeViewModel(
     private val repository: CarRepository
 ) : ViewModel() {
-    val candies: StateFlow<List<Car>> = repository.getCars()
+    val cars: StateFlow<List<Car>> = repository.getCars()
 
     // add car
-    fun addCar(candy: Car) {
-        repository.addCar(candy)
+    fun addCar(car: Car) {
+        repository.addCar(car)
     }
 
-    fun deleteCar(candy: Car) {
-        repository.deleteCar(candy)
+    fun deleteCar(car: Car) {
+        repository.deleteCar(car)
     }
 }
 
@@ -29,7 +29,7 @@ class MainActivityViewModelFactory(
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(com.example.martapolishchuk_comp304_midterm.viewmodels.MainActivityViewModelFactory::class.java)) {
+        if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
             return HomeViewModel(repository) as T
         }
 

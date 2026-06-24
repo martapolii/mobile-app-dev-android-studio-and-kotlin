@@ -12,14 +12,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.weight
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.Card
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -27,8 +26,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
 import com.example.martapolishchuk_comp304_midterm.data.CarRepositoryProvider
 import com.example.martapolishchuk_comp304_midterm.ui.theme.MartaPolishchuk_COMP304_MidtermTheme
-import com.example.martapolishchuk_comp304_midterm.view.components.CarForm
 import com.example.martapolishchuk_comp304_midterm.view.components.CommonTopBar
+import com.example.martapolishchuk_comp304_midterm.view.components.carListItem
+import com.example.martapolishchuk_comp304_midterm.viewmodels.CarInventoryDisplayViewModel
+import com.example.martapolishchuk_comp304_midterm.viewmodels.CarInventoryDisplayViewModelFactory
 
 /*
 Optional - 3rd Activity - Car Inventory List
@@ -59,107 +60,72 @@ class CarInventoryDisplayActivity : ComponentActivity() {
 
         val repository = CarRepositoryProvider.repository
         val factory = CarInventoryDisplayViewModelFactory(repository)
-        val detailViewModel = ViewModelProvider(this, factory)[CarInventoryDisplayViewModel::class.java]
-        val carId = intent.getIntExtra(EXTRA_CAR_ID, -1)
-        val screenMode = readScreenMode()
+        val carInventoryDisplayViewModel =
+            ViewModelProvider(this, factory)[CarInventoryDisplayViewModel::class.java]
 
         setContent {
             MartaPolishchuk_COMP304_MidtermTheme {
-                DetailScreen(
-                    carId = carId,
-                    screenMode = screenMode,
-                    CarInventoryDisplayViewModel = CarInventoryDisplayViewModel,
-                    onSaveComplete = { finish() }
+                CarInventoryDisplayScreen(
+                    carInventoryDisplayViewModel = carInventoryDisplayViewModel,
+                    onBackClick = { finish() },
+                    onAddCarClick = {
+                        startActivity(CarEntryActivity.createIntent(this))
+                    }
                 )
             }
         }
     }
 
-    private fun readScreenMode(): CarInventoryDisplayScreenMode {
-        val rawMode = intent.getStringExtra(EXTRA_SCREEN_MODE) ?: DetailScreenMode.VIEW.name
-
-        return runCatching {
-            CarInventoryDisplayScreenMode.valueOf(rawMode)
-        }.getOrDefault(CarInventoryDisplayScreenMode.EDIT)
-    }
-
     companion object {
-        const val EXTRA_CAR_ID = "extra_car_id"
-        const val EXTRA_SCREEN_MODE = "extra_screen_mode"
-
-        /**
-         * This template passes the candy id and screen mode.
-         *
-         * If you later want the full model instead, you can make Candy Parcelable and
-         * place the object into the Intent here.
-         */
-        fun createIntent(
-            context: Context,
-            candyId: Int,
-            screenMode: CarInventoryDisplayScreenMode
-        ): Intent {
-            return Intent(context, CarInventoryDisplayActivity::class.java).apply {
-                putExtra(EXTRA_CAR_ID, carId)
-                putExtra(EXTRA_SCREEN_MODE, screenMode.name)
-            }
+        fun createIntent(context: Context): Intent {
+            return Intent(context, CarInventoryDisplayActivity::class.java)
         }
     }
 }
 
 @Composable
 fun CarInventoryDisplayScreen(
-    carId : Int,
-    screenMode: CarInventoryDisplayScreenMode,
-    CarInventoryDisplayModel: CarInventoryDisplayViewModel,
-    onSaveComplete: () -> Unit
+    carInventoryDisplayViewModel: CarInventoryDisplayViewModel,
+    onBackClick: () -> Unit,
+    onAddCarClick: () -> Unit
 ) {
-    LaunchedEffect(carId , screenMode) {
-        CarInventoryDisplayModel.loadCar(carId = carId , screenMode = screenMode)
-    }
-
-    val uiState by CarInventoryDisplayModel.uiState.collectAsState()
-    val isReadOnly = uiState.screenMode == CarInventoryDisplayScreenMode.VIEW
+    val carList by carInventoryDisplayViewModel.cars.collectAsState()
 
     Scaffold(
         topBar = {
             CommonTopBar(
-                title = when (uiState.screenMode) {
-                    CarInventoryDisplayScreenMode.VIEW -> "View Car"
-                    CarInventoryDisplayScreenMode.CREATE -> "Create Car"
-                },
+                title = "Car Inventory",
                 onBackClick = onBackClick
             )
         }
     ) { innerPadding ->
-        LazyColumn(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
                 .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            state = rememberLazyListState()
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-
-            item {
-                CarForm(
-                    formState = uiState.formState,
-                    validationMessage = uiState.validationMessage,
-                    readOnly = isReadOnly,
-                    primaryButtonText = "Save Changes",
-                    showPrimaryButton = !isReadOnly,
-                    onMakeAndModelChange = CarInventoryDisplayModel::onMakeAndModelChange,
-                    onSellerNameChange = CarInventoryDisplayModel::onSellerNameChange,
-                    onVehicleTypeChange = CarInventoryDisplayModel::onVehicleTypeChange,
-                    onManufacturingYearChange = CarInventoryDisplayModel::onManufacturingYearChange,
-                    onSellingPriceChange = CarInventoryDisplayModel::onSellingPriceChange,
-                    onPrimaryButtonClick = {
-                        if (CarInventoryDisplayViewModel.saveCar()) {
-                            onSaveComplete()
-                        }
-                    }
-                )
+            Button(
+                onClick = onAddCarClick,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Add Car")
             }
 
+            LazyColumn(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(items = carList) { car ->
+                    carListItem(
+                        car = car,
+                        onDeleteClick = {
+                            carInventoryDisplayViewModel.deleteCar(car)
+                        }
+                    )
+                }
+            }
         }
     }
 }

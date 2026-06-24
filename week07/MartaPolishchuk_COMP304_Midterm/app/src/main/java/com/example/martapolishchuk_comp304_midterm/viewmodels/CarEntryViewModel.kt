@@ -2,6 +2,7 @@ package com.example.martapolishchuk_comp304_midterm.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.martapolishchuk_comp304_midterm.data.Car
 import com.example.martapolishchuk_comp304_midterm.data.CarFormState
 import com.example.martapolishchuk_comp304_midterm.data.CarRepository
 import com.example.martapolishchuk_comp304_midterm.data.validateCarInput
@@ -15,17 +16,17 @@ data class CreateCarUiState(
     val validationMessage: String? = null
 )
 
-class CreateCandyViewModel(
+class CarEntryViewModel(
     private val repository: CarRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(CreateCarUiState())
-    val uiState: StateFlow<com.example.martapolishchuk_comp304_midterm.viewmodels.CreateCarUiState> = _uiState.asStateFlow()
+    val uiState: StateFlow<CreateCarUiState> = _uiState.asStateFlow()
 
     fun onMakeAndModelChange(newValue: String) = updateForm { it.copy(makeAndModel = newValue) }
     fun onSellerNameChange(newValue: String) = updateForm { it.copy(sellerName = newValue) }
     fun onVehicleTypeChange(newValue: String) = updateForm { it.copy(vehicleType = newValue) }
-    fun onManufacturingYearChange(newValue: Int) = updateForm { it.copy(manufacturingYear = newValue) }
+    fun onManufacturingYearChange(newValue: String) = updateForm { it.copy(manufacturingYear = newValue) }
     fun onSellingPriceChange(newValue: String) = updateForm { it.copy(sellingPrice = newValue) }
 
       //adds  new car item to the shared repo
@@ -45,7 +46,15 @@ class CreateCandyViewModel(
             return false
         }
 
-        repository.addCar(currentState.formState.toCar(idOverride = -1))
+        repository.addCar(
+            Car(
+                makeAndModel = currentState.formState.makeAndModel,
+                sellerName = currentState.formState.sellerName,
+                vehicleType = currentState.formState.vehicleType,
+                manufacturingYear = currentState.formState.manufacturingYear.toInt(),
+                sellingPrice = currentState.formState.sellingPrice.toDouble()
+            )
+        )
         _uiState.value = currentState.copy(validationMessage = null)
         return true
     }
@@ -69,7 +78,7 @@ class CarEntryViewModelFactory(
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(CarEntryViewModel::class.java)) {
-            return CreateCandyViewModel(repository) as T
+            return CarEntryViewModel(repository) as T
         }
 
         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

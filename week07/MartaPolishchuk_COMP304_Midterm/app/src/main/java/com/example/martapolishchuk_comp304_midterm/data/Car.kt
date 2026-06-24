@@ -18,7 +18,7 @@ data class CarFormState(
     val makeAndModel: String = "",
     val sellerName: String = "",
     val vehicleType: String = "",
-    val manufacturingYear: Int = 0,
+    val manufacturingYear: String = "",
     val sellingPrice: String = ""
 )
 
@@ -58,6 +58,7 @@ val prepopulatedCars = listOf (
 fun validateCarInput(
     makeAndModel: String,
     sellerName: String,
+    vehicleType: String,
     manufacturingYear: String,
     sellingPrice: String
 ): String? {
@@ -66,6 +67,9 @@ fun validateCarInput(
     }
     if (sellerName.isBlank()) {
         return "Please enter the Seller's name"
+    }
+    if (vehicleType.isBlank()) {
+        return "Please select the Vehicle Type."
     }
     if (manufacturingYear.isBlank()) {
         return "Please enter Manufacturing year."
@@ -81,5 +85,4 @@ fun validateCarInput(
     }
     return null
 }
-
 

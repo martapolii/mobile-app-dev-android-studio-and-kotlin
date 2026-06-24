@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.weight
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
@@ -18,7 +19,10 @@ import com.example.martapolishchuk_comp304_midterm.data.Car
 // 301432299 - Marta Polishchuk
 
 // reusable card to use in the Lazy Column inventory list
-@Composable fun carListItem(car: Car) {
+@Composable fun carListItem(
+    car: Car,
+    onDeleteClick: (() -> Unit)? = null
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -47,10 +51,10 @@ import com.example.martapolishchuk_comp304_midterm.data.Car
             }
 
             // delete button
-            Button(onClick = {
-                carInventoryDisplayViewModel.deleteCar(car)
-            }) {
-                Text(text = "Delete")
+            if (onDeleteClick != null) {
+                Button(onClick = onDeleteClick) {
+                    Text(text = "Delete")
+                }
             }
 
         }// row 

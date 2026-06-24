@@ -1,6 +1,5 @@
 package com.example.martapolishchuk_comp304_midterm.view.components
 
-import android.R
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -8,10 +7,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MultiChoiceSegmentedButtonRow
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,7 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.martapolishchuk_comp304_midterm.data.CarFormState
 import com.example.martapolishchuk_comp304_midterm.data.vehicleTypeOptions
-import kotlinx.coroutines.selects.select
 
 // 301432299 - Marta Polishchuk
 
@@ -30,6 +30,7 @@ import kotlinx.coroutines.selects.select
 
 // (I relaized we don't need an edit screen for this App - I was going to re-use the form for the create new car and edit car screen - for this app im not reusing this form, but i just left it as a reusable compoennt anyways)
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CarForm(
     formState: CarFormState,
@@ -45,7 +46,7 @@ fun CarForm(
 
     ){
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     )
     {
@@ -71,11 +72,11 @@ fun CarForm(
             readOnly = readOnly
         )
         // segmented button
-        MultiChoiceSegmentedButtonRow(
+        SingleChoiceSegmentedButtonRow(
             modifier = Modifier.fillMaxWidth(),
         ) {
             vehicleTypeOptions.forEachIndexed { index, option ->
-                SegmentedButton (
+                SegmentedButton(
                     selected = formState.vehicleType == option,
                     onClick = { onVehicleTypeChange(option) },
                     shape = SegmentedButtonDefaults.itemShape(
@@ -116,7 +117,7 @@ fun CarForm(
                 modifier = Modifier.padding(16.dp)
             ){
                 Text(
-                    text = "Add Car",
+                    text = "Save Car",
                     modifier = Modifier.padding(16.dp),
                     style = MaterialTheme.typography.titleLarge
                 )
@@ -124,7 +125,7 @@ fun CarForm(
                     onClick = onAddCarClick,
                     modifier = Modifier.padding(16.dp)
                 ) {
-                    Text(text = "Add Car")
+                    Text(text = "Save Car")
                 }
             }
         }
@@ -142,11 +143,6 @@ fun CarForm(
         val snackbarHostState = remember { SnackbarHostState() }
 
 
-    }// column
+}// column
 
-}
-
-@Composable
-fun SegmentedButton(content: @Composable () -> Unit) {
-    TODO("Not yet implemented")
 }

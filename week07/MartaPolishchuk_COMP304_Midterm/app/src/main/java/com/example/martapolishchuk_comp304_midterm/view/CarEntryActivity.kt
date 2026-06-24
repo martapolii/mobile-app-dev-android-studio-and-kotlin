@@ -20,8 +20,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
+import com.example.martapolishchuk_comp304_midterm.data.CarRepositoryProvider
 import com.example.martapolishchuk_comp304_midterm.ui.theme.MartaPolishchuk_COMP304_MidtermTheme
+import com.example.martapolishchuk_comp304_midterm.view.components.CarForm
 import com.example.martapolishchuk_comp304_midterm.view.components.CommonTopBar
+import com.example.martapolishchuk_comp304_midterm.viewmodels.CarEntryViewModel
+import com.example.martapolishchuk_comp304_midterm.viewmodels.CarEntryViewModelFactory
 
 /*
 Second Activity (Car Entry Screen)
@@ -59,8 +63,8 @@ class CarEntryActivity : ComponentActivity() {
 
         setContent {
             MartaPolishchuk_COMP304_MidtermTheme {
-                CarEntryScreen(
-                    createCandyViewModel = carEntryViewModel,
+                CreateCarScreen(
+                    createCarViewModel = carEntryViewModel,
                     onBackClick = { finish() },
                     onSaveComplete = { finish() }
                 )
@@ -81,12 +85,12 @@ fun CreateCarScreen(
     onBackClick: () -> Unit,
     onSaveComplete: () -> Unit
 ) {
-    val uiState by carEntryViewModel.uiState.collectAsState()
+    val uiState by createCarViewModel.uiState.collectAsState()
 
     Scaffold(
         topBar = {
             CommonTopBar(
-                title = "Create Candy",
+                title = "Create Car",
                 onBackClick = onBackClick
             )
         }
@@ -104,15 +108,13 @@ fun CreateCarScreen(
                     formState = uiState.formState,
                     validationMessage = uiState.validationMessage,
                     readOnly = false,
-                    primaryButtonText = "Add Car",
-                    showPrimaryButton = true,
-                    onMakeAndModelChange = carEntryViewModel::onMakeAndModelChange,
-                    onSellerNameChange = carEntryViewModel::onSellerNameChange,
-                    onVehicleTypeChange = carEntryViewModel::onVehicleTypeChange,
-                    onManufacturingYearChange = carEntryViewModel::onManufacturingYearChange,
-                    onSellingPriceChange = carEntryViewModel::onSellingPriceChange,
-                    onPrimaryButtonClick = {
-                        if (carEntryViewModel.saveCar()) {
+                    onMakeAndModelChange = createCarViewModel::onMakeAndModelChange,
+                    onSellerNameChange = createCarViewModel::onSellerNameChange,
+                    onVehicleTypeChange = createCarViewModel::onVehicleTypeChange,
+                    onManufacturingYearChange = createCarViewModel::onManufacturingYearChange,
+                    onSellingPriceChange = createCarViewModel::onSellingPriceChange,
+                    onAddCarClick = {
+                        if (createCarViewModel.saveCar()) {
                             onSaveComplete()
                         }
                     }
