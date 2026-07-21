@@ -29,15 +29,10 @@ class CreateCandyViewModel(
     val uiState: StateFlow<CreateCandyUiState> = _uiState.asStateFlow()
 
     fun onNameChange(newValue: String) = updateForm { it.copy(name = newValue) }
-
     fun onTypeChange(newValue: String) = updateForm { it.copy(type = newValue) }
-
     fun onSugarFreeChange(newValue: Boolean) = updateForm { it.copy(isSugarFree = newValue) }
-
     fun onFlavorProfileChange(newValue: String) = updateForm { it.copy(flavorProfile = newValue) }
-
     fun onDescriptionChange(newValue: String) = updateForm { it.copy(description = newValue) }
-
     fun onFavoriteToggle() = updateForm { currentState ->
         currentState.copy(isFavorite = !currentState.isFavorite)
     }
