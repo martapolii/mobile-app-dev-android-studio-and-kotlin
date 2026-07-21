@@ -1,5 +1,4 @@
 package com.example.martapolishchuk_comp304_midterm.viewmodels
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.martapolishchuk_comp304_midterm.data.Car
@@ -9,13 +8,11 @@ import com.example.martapolishchuk_comp304_midterm.data.validateCarInput
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-
 // 301432299 - Marta Polishchuk
 data class CreateCarUiState(
     val formState: CarFormState = CarFormState(),
     val validationMessage: String? = null
 )
-
 class CarEntryViewModel(
     private val repository: CarRepository
 ) : ViewModel() {
@@ -30,7 +27,6 @@ class CarEntryViewModel(
     fun onSellingPriceChange(newValue: String) = updateForm { it.copy(sellingPrice = newValue) }
 
       //adds  new car item to the shared repo
-
     fun saveCar(): Boolean {
         val currentState = _uiState.value
         val validationMessage = validateCarInput(
@@ -70,7 +66,6 @@ class CarEntryViewModel(
     }
 }
 
-
 class CarEntryViewModelFactory(
     private val repository: CarRepository
 ) : ViewModelProvider.Factory {
@@ -80,7 +75,6 @@ class CarEntryViewModelFactory(
         if (modelClass.isAssignableFrom(CarEntryViewModel::class.java)) {
             return CarEntryViewModel(repository) as T
         }
-
         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
     }
 }

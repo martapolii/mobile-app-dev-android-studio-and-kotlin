@@ -42,13 +42,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-// these will be used for navigating between screens
-enum class Screen{
-    HOME,
-    VIEW,
-    CREATE
-}
-
 @Composable
 fun HomeScreen(
     onOpenInventoryClick: () -> Unit
@@ -63,7 +56,7 @@ fun HomeScreen(
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_launcher_foreground),
-                contentDescription = "Application logo",
+                contentDescription = "Used Car Sales logo",
                 modifier = Modifier.size(180.dp)
             )
 
@@ -72,7 +65,7 @@ fun HomeScreen(
                 modifier = Modifier.size(96.dp)
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                    painter = painterResource(id = R.drawable.used_car),
                     contentDescription = "Open car inventory",
                     modifier = Modifier.size(72.dp)
                 )

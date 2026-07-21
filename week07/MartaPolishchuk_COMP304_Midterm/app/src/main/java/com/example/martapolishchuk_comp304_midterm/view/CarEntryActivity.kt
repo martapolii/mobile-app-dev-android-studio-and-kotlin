@@ -72,6 +72,7 @@ class CarEntryActivity : ComponentActivity() {
         }
     }
 
+    // used
     companion object {
         fun createIntent(context: Context): Intent {
             return Intent(context, com.example.martapolishchuk_comp304_midterm.view.CarEntryActivity::class.java)
@@ -90,7 +91,7 @@ fun CreateCarScreen(
     Scaffold(
         topBar = {
             CommonTopBar(
-                title = "Create Car",
+                title = "Sell Your Car",
                 onBackClick = onBackClick
             )
         }

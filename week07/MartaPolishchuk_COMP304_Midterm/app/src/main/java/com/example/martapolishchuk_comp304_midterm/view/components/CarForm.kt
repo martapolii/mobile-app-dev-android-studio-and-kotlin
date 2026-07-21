@@ -27,8 +27,7 @@ import com.example.martapolishchuk_comp304_midterm.data.vehicleTypeOptions
 // 301432299 - Marta Polishchuk
 
 // form for filling out new Car details
-
-// (I relaized we don't need an edit screen for this App - I was going to re-use the form for the create new car and edit car screen - for this app im not reusing this form, but i just left it as a reusable compoennt anyways)
+// (I realized we don't need an edit screen for this App - I was going to re-use the form for the create new car and edit car screen - for this app im not reusing this form, but i just left it as a reusable compoennt anyways)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,8 +48,7 @@ fun CarForm(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     )
-    {
-        Text(
+    { Text(
             text = "Add New Car Form",
             style = MaterialTheme.typography.titleLarge
         )
@@ -87,7 +85,6 @@ fun CarForm(
                     label = { Text(text = option) }
                 )//seg. button
             }
-
         }// seg. button row
 
         // manufacturing year

@@ -2,7 +2,6 @@ package com.example.martapolishchuk_comp304_midterm.data
 // 301432299 - Marta Polishchuk
 
 // Car data class - data model for the app
-
 // data members
 data class Car(
     val makeAndModel: String,
@@ -11,7 +10,6 @@ data class Car(
     val manufacturingYear: Int,
     val sellingPrice: Double
 )
-
 // Form state object used by the form composable (car entry screen)
 // keeping it as a separate objects lets you update the UI as the user adds inputs without changing the saved data model directly (prevents mutated data)
 data class CarFormState(

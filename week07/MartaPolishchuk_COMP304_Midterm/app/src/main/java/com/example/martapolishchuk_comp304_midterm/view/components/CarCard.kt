@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.weight
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
@@ -15,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.martapolishchuk_comp304_midterm.data.Car
-
 // 301432299 - Marta Polishchuk
 
 // reusable card to use in the Lazy Column inventory list
@@ -61,7 +59,5 @@ import com.example.martapolishchuk_comp304_midterm.data.Car
 
 
     }//card
-
-
 
 } // composable end
