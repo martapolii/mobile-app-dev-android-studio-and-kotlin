@@ -23,7 +23,6 @@ VIEW/EDIT CAREER ITEM ----------------------------------------------------------
 - opens when career item is clicked on Home Screen
 - pre-populated text fields
 - button: Save - saves changes & returns to Home Screen
-
  */
 
 @Composable
