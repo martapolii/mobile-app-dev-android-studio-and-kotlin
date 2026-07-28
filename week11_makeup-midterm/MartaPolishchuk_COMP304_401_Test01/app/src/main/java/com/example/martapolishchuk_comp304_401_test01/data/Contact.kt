@@ -35,8 +35,8 @@ val contactTypeOptions = listOf(
 
 // favourite (radio button): Yes, No
 val favouriteOptions = listOf(
-    "Yes",
-    "No"
+    "No",
+    "Yes"
 )
 
-// validate input
+
