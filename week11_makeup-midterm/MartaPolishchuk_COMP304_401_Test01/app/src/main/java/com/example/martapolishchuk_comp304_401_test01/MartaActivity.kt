@@ -1,3 +1,8 @@
+// Marta Polishchuk - 301432299
+
+// displayed when app opens
+// label " My Personal Contacts" and an image button that leads to the second activity
+
 package com.example.martapolishchuk_comp304_401_test01
 
 import android.os.Bundle
