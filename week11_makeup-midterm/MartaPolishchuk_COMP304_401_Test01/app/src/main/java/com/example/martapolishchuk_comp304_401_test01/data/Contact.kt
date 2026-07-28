@@ -1,7 +1,9 @@
 package com.example.martapolishchuk_comp304_401_test01.data
 
-// contact data class
+import androidx.compose.runtime.mutableStateListOf
+import androidx.lifecycle.ViewModel
 
+// contact data class
 
 data class Contact {
 
