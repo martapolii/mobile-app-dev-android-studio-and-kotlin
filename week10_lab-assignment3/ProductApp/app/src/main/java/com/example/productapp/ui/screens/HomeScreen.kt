@@ -5,6 +5,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
@@ -15,9 +18,13 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.isTraversalGroup
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -107,6 +114,11 @@ fun HomeScreen(
 
 // PRODUCT LIST - REGULAR SCREEN
         } else {
+            // inserting search bar here - above the lazy column, bellow the top app bar
+
+
+
+
             LazyColumn(modifier = Modifier.padding(paddingValues)) {
                 items(products) { product ->
                     ProductItem(
@@ -122,7 +134,68 @@ fun HomeScreen(
                             )
                     )
                 }
+            } // lazy column
+        } // reg. screen
+    } // scaffold
+} // home screen
+
+// Marta Polishchuk - 301432299
+// Assignment 3: Exercise 1 - add a Search text box to search for a product based on Product ID
+
+// Code used as a guide/to start: https://developer.android.com/develop/ui/compose/components/search-bar?authuser=1, example 1: "Search bar with suggestions"
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SimpleSearchBar(
+    textFieldState: TextFieldState,
+    onSearch: (String) -> Unit,
+    searchResults: List<String>,
+    modifier: Modifier = Modifier
+) {
+    // Controls expansion state of the search bar
+    var expanded by rememberSaveable { mutableStateOf(false) }
+
+    Box(
+        modifier
+            .fillMaxSize()
+            .semantics { isTraversalGroup = true } // for accessibility (screen readers)
+    ) {
+        SearchBar(
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .semantics { traversalIndex = 0f },// for accessibility (screen readers)
+
+// SEARCH BAR ----------------------
+            inputField = {
+                SearchBarDefaults.InputField( // creates input field + handles changes to the query
+                    query = textFieldState.text.toString(), // query text to be shown in the input field
+                    onQueryChange = { textFieldState.edit { replace(0, length, it) } }, // lambda to handle changes in the query string (text input and updates state when input changes)
+                    onSearch = {
+                        onSearch(textFieldState.text.toString())
+                        expanded = false // default = not expanded to show suggestions list
+                    },
+                    expanded = expanded,
+                    onExpandedChange = { expanded = it }, // lambda to handle changes in dropdown when expanded
+                    placeholder = { Text("Search") }
+                )
+            },
+            expanded = expanded,
+            onExpandedChange = { expanded = it },
+        ) {
+ // SEARCH RESULTS -----------------
+            Column(Modifier.verticalScroll(rememberScrollState())) {
+                searchResults.forEach { result -> // iterates through search result list & creates a list item for each result
+                    ListItem(
+                        headlineContent = { Text(result) }, // content to be displayed
+                        modifier = Modifier
+                            .clickable { // when a list item is clicked, the text field is updated, suggestions list collapses, and text field (search bar) is filled with the selected result
+                                textFieldState.edit { replace(0, length, result) }
+                                expanded = false
+                            }
+                            .fillMaxWidth()
+                    )
+                }
             }
         }
     }
-}
+} // simple search bar
