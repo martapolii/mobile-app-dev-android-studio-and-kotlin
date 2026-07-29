@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MartaPolishchuk_COMP304_401_Test01">
         <activity
-            android:name=".MainActivity"
+            android:name=".MartaActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.MartaPolishchuk_COMP304_401_Test01">
