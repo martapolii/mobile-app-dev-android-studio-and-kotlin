@@ -42,11 +42,19 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
         modifier = modifier
     )
 }
+    }
+}
 
-@Preview(showBackground = true)
+
+// screen users are taken to after clicking on the image button
 @Composable
 fun GreetingPreview() {
     MartaPolishchuk_COMP304_401_Test01Theme {
         Greeting("Android")
     }
 }
+            }
+        }
+    }
+}
+
