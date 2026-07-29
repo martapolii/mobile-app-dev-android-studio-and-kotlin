@@ -5,6 +5,7 @@
 package com.example.martapolishchuk_comp304_401_test01
 
 import android.provider.MediaStore
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,6 +27,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.martapolishchuk_comp304_401_test01.data.Contact
 import com.example.martapolishchuk_comp304_401_test01.data.contactTypeOptions
@@ -44,6 +47,7 @@ fun AddContactScreen(
     var email by remember { mutableStateOf("") }
     var contactType by remember { mutableStateOf(contactTypeOptions[0]) } // default will be family (bc index 0 in list - see list in data class)
     var favourite by remember{ mutableStateOf(favouriteOptions[0])} // default will be 'No'
+    val context = LocalContext.current // for Toast that displays new contact details upon saving
 
     Column(
         modifier = Modifier
@@ -111,22 +115,99 @@ fun AddContactScreen(
                 Text(text = option)
             }// row
         }//favoptions
-        
+
 
 
         // "ADD NEW CONTACT" button - triggers Toast with contact details
+        // needs to: 1. validate input, 2. create contact object, 3. call onSave, 4. display toast w contact info
+        Button(
+            onClick ={
+                when {
+                    // 1. validation
+                    // if any fields are blank = error message
+                    contactId.isBlank() ||
+                            name.isBlank() ||
+                            cellPhone.isBlank() ||
+                            email.isBlank() ||
+                            contactType.isBlank() ||
+                            favourite.isBlank() -> {
+                        Toast.makeText(
+                            context,
+                            "Please fill out all fields.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
 
+                    // contact id must be 3 digits
+                    !contactId.matches(Regex("\\d{3}")) -> {
 
+                        Toast.makeText(
+                            context,
+                            "Contact ID must be 3 digits",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
 
+                    // cell phone # must be 10 digits
+                    !cellPhone.matches(Regex("\\d{10}")) -> {
 
+                        Toast.makeText(
+                            context,
+                            "Phone Number must be 10 digits",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                    // 2. create contact object if everything is valid
+                    else -> {
+                        val contact = Contact(
+                            contactId = contactId,
+                            name = name,
+                            cellPhone = cellPhone,
+                            email = email,
+                            contactType = contactType,
+                            favourite = favourite
+                        )
+
+                        // 3. call onSave
+                        onSave(contact)
+
+                        // 4. toast w/ new contact info
+                        Toast.makeText(
+                            context,
+                            """
+                                New Contact Added
+                                
+                                Contact Id: ${contact.contactId}
+                                Name: ${contact.name}
+                                Phone: ${contact.cellPhone}
+                                Email: ${contact.email}
+                                Type: ${contact.contactType}
+                                Favourite:${contact.favourite}
+                            """.trimIndent(),
+                            Toast.LENGTH_LONG
+                        ).show()
+
+                        // clear form
+                        contactId = ""
+                        name = ""
+                        cellPhone = ""
+                        email = ""
+                        contactType = contactTypeOptions[0]
+                        favourite = favouriteOptions[0]
+                    }
+                }
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("ADD NEW CONTACT")
+        }
 
     } // column
 
 
-
-
-
 } // end of addContactScreen
+
 
 // drop-down: contact type (Family, Personal, Relative) (https://developer.android.com/develop/ui/compose/components/menu?authuser=1)
 @Composable
