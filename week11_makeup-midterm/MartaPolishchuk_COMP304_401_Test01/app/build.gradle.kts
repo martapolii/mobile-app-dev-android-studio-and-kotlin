@@ -6,7 +6,7 @@ plugins {
 android {
     namespace = "com.example.martapolishchuk_comp304_401_test01"
     compileSdk {
-        version = release(36) {
+        version = release(37) {
             minorApiLevel = 1
         }
     }
