@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 
 // contact data class
 
-data class Contact {
+data class Contact (
 
     // text fields for ID (3 digits)
     val contactId: String,
@@ -24,7 +24,7 @@ data class Contact {
 
     // favourite
     val favourite: String
-}
+)
 
 // contact type (drop down): Family, Personal, Relative
 val contactTypeOptions = listOf(
