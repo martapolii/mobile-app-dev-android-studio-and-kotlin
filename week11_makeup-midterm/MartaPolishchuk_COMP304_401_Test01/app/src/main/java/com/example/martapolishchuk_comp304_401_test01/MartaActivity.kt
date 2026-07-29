@@ -10,6 +10,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -38,7 +39,7 @@ import com.example.martapolishchuk_comp304_401_test01.data.Contact
 import com.example.martapolishchuk_comp304_401_test01.data.ContactViewModel
 import com.example.martapolishchuk_comp304_401_test01.ui.theme.MartaPolishchuk_COMP304_401_Test01Theme
 
-class MainActivity : ComponentActivity() {
+class MartaActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -114,7 +115,8 @@ fun HomeScreen(
         ) {
             Image(
                 painter = painterResource(id = R.drawable.address_book),
-                contentDescription = "Manage Contacts"
+                contentDescription = "Manage Contacts",
+                modifier = Modifier.height(120.dp)
             )
         }
     }
@@ -147,6 +149,7 @@ fun ContactListScreen(
                 .fillMaxSize()
         ) {
 
+
             items(contacts) { contact ->
                 // each contact is displayed on a card
                 Card(
@@ -163,6 +166,13 @@ fun ContactListScreen(
                         Text(contact.email)
                         Text(contact.contactType)
                         Text("Favourite: ${contact.favourite}")
+                    }
+
+                    if (contacts.isEmpty()) {
+                        Text(
+                            text = "No contacts added yet",
+                            modifier = Modifier.padding(16.dp)
+                        )
                     }
                 }
             }
