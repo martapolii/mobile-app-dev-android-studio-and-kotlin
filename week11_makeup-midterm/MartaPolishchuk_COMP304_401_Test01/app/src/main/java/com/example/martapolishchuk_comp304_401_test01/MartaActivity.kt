@@ -86,10 +86,6 @@ class MartaActivity : ComponentActivity() {
     }
 }
 
-
-
-
-
 // what users see when app first starts -> click the image button to access the app
 @Composable
 fun HomeScreen(
@@ -121,7 +117,6 @@ fun HomeScreen(
         }
     }
 }
-
 
 // screen users are taken to after clicking on the image button
 @Composable

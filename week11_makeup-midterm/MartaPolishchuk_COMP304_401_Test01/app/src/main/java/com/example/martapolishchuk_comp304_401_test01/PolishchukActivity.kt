@@ -1,7 +1,4 @@
 // Marta Polishchuk - 301432299
-
-
-
 package com.example.martapolishchuk_comp304_401_test01
 
 import android.provider.MediaStore
@@ -34,8 +31,6 @@ import com.example.martapolishchuk_comp304_401_test01.data.Contact
 import com.example.martapolishchuk_comp304_401_test01.data.contactTypeOptions
 import com.example.martapolishchuk_comp304_401_test01.data.favouriteOptions
 import kotlinx.coroutines.selects.select
-
-
 @Composable
 fun AddContactScreen(
     onSave:(Contact)->Unit
