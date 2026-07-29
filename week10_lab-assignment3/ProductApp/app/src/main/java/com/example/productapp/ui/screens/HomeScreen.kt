@@ -38,6 +38,7 @@ fun HomeScreen(
     var selectedProduct by remember { mutableStateOf<Product?>(null) }
 
     Scaffold(
+// TOP APP BAR W FAV + ADD ICON BUTTONS
         topBar = {
             TopAppBar(
                 title = { Text("Product List") },
@@ -52,6 +53,8 @@ fun HomeScreen(
             )
         }
     ) { paddingValues ->
+
+// PRODUCT LIST - EXPANDED SCREEN
         if (isExpandedScreen) {
             Row(
                 modifier = Modifier
@@ -76,7 +79,9 @@ fun HomeScreen(
                                 )
                         )
                     }
-                }
+                } // lazy column
+
+                // Below box only shows on expanded screens - tested with pixel 10 pro fold emulator - product list & product view screen are displayed side-by-side
                 Box(
                     modifier = Modifier
                         .weight(1f)
@@ -97,8 +102,10 @@ fun HomeScreen(
                         modifier = Modifier.align(Alignment.Center),
                         style = MaterialTheme.typography.bodyLarge
                     )
-                }
-            }
+                } // box
+            } // expanded screen
+
+// PRODUCT LIST - REGULAR SCREEN
         } else {
             LazyColumn(modifier = Modifier.padding(paddingValues)) {
                 items(products) { product ->
