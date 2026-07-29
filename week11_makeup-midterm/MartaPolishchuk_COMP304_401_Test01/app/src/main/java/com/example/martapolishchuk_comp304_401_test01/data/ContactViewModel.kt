@@ -4,8 +4,8 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 
 class ContactViewModel: ViewModel() {
-    private val_contacts = mutableStateListOf<Contact>()
-    val contacts:List<Contact>= _contacts
+    private val _contacts = mutableStateListOf<Contact>()
+    val contacts: List<Contact> = _contacts
 
     fun addContact(contact:Contact) {
         _contacts.add(contact)
