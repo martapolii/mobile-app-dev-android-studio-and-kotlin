@@ -69,6 +69,14 @@ fun EditProductScreen(
             modifier = Modifier.fillMaxWidth()
         )
 
+        // Added an edit Quantity field: ********************************************************************
+        OutlinedTextField(
+            value = editedQuantity,
+            onValueChange = { editedQuantity = it },
+            label = { Text("Quantity") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+        )
+
         // Category Dropdown
         ExposedDropdownMenuBox(
             expanded = expanded,
