@@ -183,8 +183,6 @@ fun EditProductScreen(
                 // 2. validate the inputs - NOT WORKING CORRECTLY
                 viewModel.validateProduct(updatedProduct) // calling a custom validation function for this screen (in View model), and passing the updated product object as the argument
 
-                // 3. update the product copy in the database
-                viewModel.update(updatedProduct)
 
 
             }) {
