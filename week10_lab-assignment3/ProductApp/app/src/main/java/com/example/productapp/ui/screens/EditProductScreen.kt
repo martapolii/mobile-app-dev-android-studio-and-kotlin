@@ -153,6 +153,18 @@ fun EditProductScreen(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
+
+            // added a cancel button ***************************************************************
+            Button(
+                onClick = {
+                    navController.popBackStack() // just want to redirect on click, not update anything
+                          },
+            ){
+                    Icon(Icons.Default.Cancel, contentDescription = null)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("Cancel")
+            } // ***********************************************************************************
+
             // delete button
             Button(
                 onClick = {
