@@ -46,6 +46,8 @@ fun EditProductScreen(
 
     var editedName by remember { mutableStateOf(product.name) }
     var editedPrice by remember { mutableStateOf(product.price.toString()) }
+    // added variable to store updated quantity: *************************************************
+    var editedQuantity by remember { mutableStateOf(product.quantity.toString()) } // converted value to a string for editing
     var editedCategory by remember { mutableStateOf(product.category) }
     var editedFavorite by remember { mutableStateOf(product.isFavorite) }
     var expanded by remember { mutableStateOf(false) } // State for dropdown expansion
