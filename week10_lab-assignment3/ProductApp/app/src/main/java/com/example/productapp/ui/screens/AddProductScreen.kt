@@ -151,7 +151,7 @@ fun AddProductScreen(
                         OutlinedTextField(
                             value = state.id,
                             onValueChange = { viewModel.updateFormState(id = it) },
-                            label = { Text("Product ID") },
+                            label = { Text("ID") }, // shortened to make the fields fit better
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             modifier = Modifier
                                 .weight(1f)
