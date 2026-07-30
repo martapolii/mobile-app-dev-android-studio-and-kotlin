@@ -267,5 +267,5 @@ fun AddProductScreen(
                 }
             }
         }
-    }
+    } // scaffold
 }
