@@ -59,6 +59,11 @@ class ProductViewModel(application: Application) : AndroidViewModel(application)
         val price = state.price.toDoubleOrNull()
         if (price == null || price <= 0) errors.add("Price must be positive")
 
+        // Quantity Validation ( quantity > 0 )*****************************************************
+            // copied from ID validation
+        val quantity = state.quantity.toIntOrNull()
+        if (quantity == null || quantity !in 1..999) errors.add("Invalid Quantity (1-999)")
+
         // Date validation
         val currentDate = LocalDate.now()
         val deliveryDate = try {
