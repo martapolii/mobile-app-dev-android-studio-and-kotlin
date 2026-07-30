@@ -144,6 +144,8 @@ fun EditProductScreen(
                 val updatedProduct = product.copy(
                     name = editedName,
                     price = editedPrice.toDoubleOrNull() ?: 0.0,
+                    // added quantity so it updates when button is clicked: ****************************************
+                    quantity = editedQuantity.toInt(), // convert back to int bc quantity is stored as int
                     category = editedCategory,
                     isFavorite = editedFavorite
                 )
