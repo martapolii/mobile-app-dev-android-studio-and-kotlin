@@ -15,6 +15,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
+// Marta Polishchuk - 301432299
+// Assignment 3: Exercise 1 - Part 2 - Add 'quantity' field
+
 class ProductViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: ProductRepository
     val allProducts: LiveData<List<Product>>
@@ -27,6 +30,7 @@ class ProductViewModel(application: Application) : AndroidViewModel(application)
         val id: String = "",
         val name: String = "",
         val price: String = "",
+        val quantity: String = "", // added quantity property *************************************
         val deliveryDate: String = "",
         val category: String = "",
         val isFavorite: Boolean = false,
