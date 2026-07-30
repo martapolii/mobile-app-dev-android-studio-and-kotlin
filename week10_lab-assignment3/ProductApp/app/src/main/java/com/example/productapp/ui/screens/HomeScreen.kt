@@ -1,5 +1,5 @@
 // Marta Polishchuk - 301432299
-// Assignment 3: Exercise 1 - add a Search text box to search for a product based on Product ID
+// Assignment 3: Exercise 1 - Part 1- add a Search text box to search for a product based on Product ID
 // * new code/changes are denoted via lines of ****************************************************
 
 package com.example.productapp.ui.screens
