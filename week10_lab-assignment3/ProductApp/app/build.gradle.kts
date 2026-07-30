@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.example.productapp"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.productapp"
@@ -42,6 +42,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.compose.foundation.layout)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.window.core.android)
     implementation(libs.androidx.runtime.livedata)
