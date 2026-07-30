@@ -137,6 +137,7 @@ class ProductViewModel(application: Application) : AndroidViewModel(application)
 
         // if there are no errors, update the product state to successful -> user will be redirected to home page
         if (errors.isEmpty()) {
+            repository.updateProduct(product)
             _addProductState.update { it.copy(errors = emptyList()) }
             _addProductSuccess.value = true  // Set success to true
         } else { // if there are errors, do not redirect user, success is set to false
