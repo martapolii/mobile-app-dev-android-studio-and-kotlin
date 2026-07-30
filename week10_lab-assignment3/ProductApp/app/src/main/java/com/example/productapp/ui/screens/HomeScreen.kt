@@ -44,6 +44,32 @@ fun HomeScreen(
     val isExpandedScreen = windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact
     var selectedProduct by remember { mutableStateOf<Product?>(null) }
 
+    // SEARCH BAR RELATED VARIABLES:
+    val searchState = rememberTextFieldState() // added a variable to store state of search text field
+
+    // filtering for database based on product ID:
+    val filteredProducts = remember(products, searchState.text) {
+        val searchQuery = searchState.text.toString() // variable to store the query (input in search box)
+        if (searchQuery.isBlank()) {
+            products // if search field is blank, display all products
+        } else { // otherwise, filter through the products list to see if any id's contain the #'s in the query
+            products.filter { it.id.toString().contains(searchQuery, ignoreCase = true) }
+        }
+    } //filtered products
+
+    // suggestions list for search bar
+    val searchResults = remember(products, searchState.text) {
+        val searchQuery = searchState.text.toString()
+        if (searchQuery.isBlank()) { // if there is nothing typed into search bar, suggestions list is empty
+            emptyList()
+        } else { // otherwise, display products containing the entered #'s in their product ID
+            products.filter { it.id.toString().contains(searchQuery) }
+                .map { it.id.toString() }
+                .distinct()
+                .take(5) // display up to 5 results
+        }
+    }//search results
+
     Scaffold(
 // TOP APP BAR W FAV + ADD ICON BUTTONS
         topBar = {
