@@ -142,8 +142,8 @@ fun HomeScreen(
 // Marta Polishchuk - 301432299
 // Assignment 3: Exercise 1 - add a Search text box to search for a product based on Product ID
 
-// Code used as a guide/to start: https://developer.android.com/develop/ui/compose/components/search-bar?authuser=1, example 1: "Search bar with suggestions"
-
+// SEARCH BAR COMPOSABLE
+// Code used from: https://developer.android.com/develop/ui/compose/components/search-bar?authuser=1, example 1: "Search bar with suggestions"
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleSearchBar(
@@ -157,7 +157,7 @@ fun SimpleSearchBar(
 
     Box(
         modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .semantics { isTraversalGroup = true } // for accessibility (screen readers)
     ) {
         SearchBar(
@@ -182,6 +182,7 @@ fun SimpleSearchBar(
             expanded = expanded,
             onExpandedChange = { expanded = it },
         ) {
+
  // SEARCH RESULTS -----------------
             Column(Modifier.verticalScroll(rememberScrollState())) {
                 searchResults.forEach { result -> // iterates through search result list & creates a list item for each result
