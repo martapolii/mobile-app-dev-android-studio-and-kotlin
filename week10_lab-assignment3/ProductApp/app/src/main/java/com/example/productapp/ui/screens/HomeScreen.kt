@@ -1,12 +1,17 @@
+// Marta Polishchuk - 301432299
+// Assignment 3: Exercise 1 - add a Search text box to search for a product based on Product ID
+
 package com.example.productapp.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -21,7 +26,9 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.semantics.isTraversalGroup
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.traversalIndex
@@ -104,14 +111,13 @@ fun HomeScreen(
                     .fillMaxSize()
                     .padding(paddingValues)
             ) {
+                    // left side of screen - product list
                 LazyColumn(modifier = Modifier.weight(1f)) {
                         // items(products) { product ->
                         items(filteredProducts) { product -> // using filtered list rather than just the 'products' list
                         ProductItem(
                             product = product,
-                            onEdit = {
-                                navController.navigate("edit/${product.id}")
-                            },
+                                onEdit = { navController.navigate("edit/${product.id}") },
                             onDelete = { viewModel.delete(product) },
                             onToggleFavorite = { viewModel.toggleFavorite(product) },
                             modifier = Modifier
@@ -122,10 +128,10 @@ fun HomeScreen(
                                     else Color.Transparent
                                 )
                         )
-                    }
+                        }// items
                 } // lazy column
 
-                // Below box only shows on expanded screens - tested with pixel 10 pro fold emulator - product list & product view screen are displayed side-by-side
+                    // right side of screen - product details (when you click on a product)
                 Box(
                     modifier = Modifier
                         .weight(1f)
@@ -137,9 +143,18 @@ fun HomeScreen(
                         Column {
                             Text(product.name, style = MaterialTheme.typography.headlineMedium)
                             Spacer(Modifier.height(16.dp))
-                            Text("Price: $${product.price}", style = MaterialTheme.typography.titleMedium)
-                            Text("Category: ${product.category}", style = MaterialTheme.typography.bodyLarge)
-                            Text("Delivery Date: ${product.deliveryDate}", style = MaterialTheme.typography.bodyMedium)
+                                Text(
+                                    "Price: $${product.price}",
+                                    style = MaterialTheme.typography.titleMedium
+                                )
+                                Text(
+                                    "Category: ${product.category}",
+                                    style = MaterialTheme.typography.bodyLarge
+                                )
+                                Text(
+                                    "Delivery Date: ${product.deliveryDate}",
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
                         }
                     } ?: Text(
                         "Select a product",
@@ -147,7 +162,7 @@ fun HomeScreen(
                         style = MaterialTheme.typography.bodyLarge
                     )
                 } // box
-            } // expanded screen
+                } // row - expanded screen
 
 // PRODUCT LIST - REGULAR SCREEN
         } else {
