@@ -1,3 +1,6 @@
+// Marta Polishchuk - 301432299
+// Assignment 3: Exercise 1 - Part 2 - Add 'quantity' field
+
 package com.example.productapp.ui.screens
 
 import androidx.compose.foundation.layout.*
@@ -129,6 +132,7 @@ fun EditProductScreen(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
+            // delete button
             Button(
                 onClick = {
                     viewModel.delete(product)
@@ -141,6 +145,7 @@ fun EditProductScreen(
                 Text("Delete")
             }
 
+            // save button
             Button(onClick = {
                 val updatedProduct = product.copy(
                     name = editedName,
@@ -150,13 +155,14 @@ fun EditProductScreen(
                     category = editedCategory,
                     isFavorite = editedFavorite
                 )
+                viewModel.validateAndAddProduct() // trying to use validation function here
                 viewModel.update(updatedProduct)
                 navController.popBackStack()
             }) {
                 Icon(Icons.Default.Edit, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text("Save")
-            }
-        }
-    }
-}
+            }// button
+        } // row
+    }// inner column
+}//outer column
