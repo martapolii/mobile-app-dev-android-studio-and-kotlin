@@ -1,5 +1,6 @@
 // Marta Polishchuk - 301432299
 // Assignment 3: Exercise 1 - add a Search text box to search for a product based on Product ID
+// * new code/changes are denoted via lines of ****************************************************
 
 package com.example.productapp.ui.screens
 
@@ -51,6 +52,7 @@ fun HomeScreen(
     val isExpandedScreen = windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact
     var selectedProduct by remember { mutableStateOf<Product?>(null) }
 
+    // START *********************************************************************************************************
     // SEARCH BAR RELATED VARIABLES:
     val searchState = rememberTextFieldState() // added a variable to store state of search text field
 
@@ -76,9 +78,9 @@ fun HomeScreen(
                 .take(5) // display up to 5 results
         }
     }//search results
+    // *********************************************************************************************************** END
 
     Scaffold(
-// TOP APP BAR W FAV + ADD ICON BUTTONS
         topBar = {
             TopAppBar(
                 title = { Text("Product List") },
@@ -93,7 +95,8 @@ fun HomeScreen(
             )
         }
     ) { paddingValues ->
-        Column(modifier = Modifier.padding(paddingValues)) {
+        // START *********************************************************************************************************
+        Column(modifier = Modifier.padding(paddingValues)) { // wrapped everything in a column so I could add search bar outside of if/else block
 
             // SEARCH BAR
             // placing search bar outside of if/else block so that it is visible on all screens, independent of screen size
@@ -103,46 +106,45 @@ fun HomeScreen(
                 searchResults = searchResults,
                 modifier = Modifier.fillMaxWidth().padding(8.dp)
             )
+            //  *********************************************************************************************************** END
 
-// PRODUCT LIST - EXPANDED SCREEN
-        if (isExpandedScreen) {
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-            ) {
-                    // left side of screen - product list
-                LazyColumn(modifier = Modifier.weight(1f)) {
-                        // items(products) { product ->
-                        items(filteredProducts) { product -> // using filtered list rather than just the 'products' list
-                        ProductItem(
-                            product = product,
-                                onEdit = { navController.navigate("edit/${product.id}") },
-                            onDelete = { viewModel.delete(product) },
-                            onToggleFavorite = { viewModel.toggleFavorite(product) },
-                            modifier = Modifier
-                                .clickable { selectedProduct = product }
-                                .background(
-                                    if (product == selectedProduct)
-                                        MaterialTheme.colorScheme.secondaryContainer
-                                    else Color.Transparent
-                                )
-                        )
-                        }// items
-                } // lazy column
-
-                    // right side of screen - product details (when you click on a product)
-                Box(
+            if (isExpandedScreen) {
+                Row(
                     modifier = Modifier
-                        .weight(1f)
-                        .fillMaxHeight()
-                        .padding(16.dp),
-                    contentAlignment = Alignment.TopStart
-                ) {
-                    selectedProduct?.let { product ->
-                        Column {
-                            Text(product.name, style = MaterialTheme.typography.headlineMedium)
-                            Spacer(Modifier.height(16.dp))
+                        .fillMaxSize()
+                        .padding(paddingValues)
+                ) { // Product List - Expanded Screens:
+                    LazyColumn(modifier = Modifier.weight(1f)) {
+                        // items(products) { product ->
+                        items(filteredProducts) { product -> // using filtered list rather than just the 'products' list *****************************************
+                            ProductItem(
+                                product = product,
+                                onEdit = { navController.navigate("edit/${product.id}") },
+                                onDelete = { viewModel.delete(product) },
+                                onToggleFavorite = { viewModel.toggleFavorite(product) },
+                                modifier = Modifier
+                                    .clickable { selectedProduct = product }
+                                    .background(
+                                        if (product == selectedProduct)
+                                            MaterialTheme.colorScheme.secondaryContainer
+                                        else Color.Transparent
+                                    )
+                            )
+                        }
+                    }
+
+                    // Product Details - Expanded Screens:
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxHeight()
+                            .padding(16.dp),
+                        contentAlignment = Alignment.TopStart
+                    ) {
+                        selectedProduct?.let { product ->
+                            Column {
+                                Text(product.name, style = MaterialTheme.typography.headlineMedium)
+                                Spacer(Modifier.height(16.dp))
                                 Text(
                                     "Price: $${product.price}",
                                     style = MaterialTheme.typography.titleMedium
@@ -155,46 +157,41 @@ fun HomeScreen(
                                     "Delivery Date: ${product.deliveryDate}",
                                     style = MaterialTheme.typography.bodyMedium
                                 )
-                        }
-                    } ?: Text(
-                        "Select a product",
-                        modifier = Modifier.align(Alignment.Center),
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                } // box
-                } // row - expanded screen
-
-// PRODUCT LIST - REGULAR SCREEN
-        } else {
-            // inserting search bar here - above the lazy column, bellow the top app bar
-
-
-
-
-            LazyColumn(modifier = Modifier.padding(paddingValues)) {
-                    // items(products) { product ->
-                    items(filteredProducts) { product -> // using filteredProducts
-                    ProductItem(
-                        product = product,
-                        onEdit = { navController.navigate("edit/${product.id}") },
-                        onDelete = { viewModel.delete(product) },
-                        onToggleFavorite = { viewModel.toggleFavorite(product) },
-                        modifier = Modifier
-                            .background(
-                                if (product == selectedProduct)
-                                    MaterialTheme.colorScheme.secondaryContainer
-                                else Color.Transparent
-                            )
-                    )
+                            }
+                        } ?: Text(
+                            "Select a product",
+                            modifier = Modifier.align(Alignment.Center),
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                    }
                 }
-            } // lazy column
-        } // reg. screen
+
+            // PRODUCT LIST - REGULAR SCREEN
+            } else {
+                LazyColumn(modifier = Modifier.padding(paddingValues)) {
+                    // items(products) { product ->
+                    items(filteredProducts) { product -> // using filteredProducts *****************************************
+                        ProductItem(
+                            product = product,
+                            onEdit = { navController.navigate("edit/${product.id}") },
+                            onDelete = { viewModel.delete(product) },
+                            onToggleFavorite = { viewModel.toggleFavorite(product) },
+                            modifier = Modifier
+                                .background(
+                                    if (product == selectedProduct)
+                                        MaterialTheme.colorScheme.secondaryContainer
+                                    else Color.Transparent
+                                )
+                        )
+                    }
+                } // lazy column
+            } // reg. screen
         } // column
     } // scaffold
 } // home screen
 
-// Marta Polishchuk - 301432299
-// Assignment 3: Exercise 1 - add a Search text box to search for a product based on Product ID
+
+// START *********************************************************************************************************
 
 // SEARCH BAR COMPOSABLE
 // Code used from: https://developer.android.com/develop/ui/compose/components/search-bar?authuser=1, example 1: "Search bar with suggestions"
@@ -211,7 +208,8 @@ fun SimpleSearchBar(
 
     Box(
         modifier
-            .fillMaxWidth()
+            //.fillMaxSize
+            .fillMaxWidth() // this is the only code I changed. Previously would take up most of the screen *************
             .semantics { isTraversalGroup = true } // for accessibility (screen readers)
     ) {
         SearchBar(
@@ -219,7 +217,7 @@ fun SimpleSearchBar(
                 .align(Alignment.TopCenter)
                 .semantics { traversalIndex = 0f },// for accessibility (screen readers)
 
-// SEARCH BAR ----------------------
+            // SEARCH BAR ----------------------
             inputField = {
                 SearchBarDefaults.InputField( // creates input field + handles changes to the query
                     query = textFieldState.text.toString(), // query text to be shown in the input field
@@ -237,7 +235,7 @@ fun SimpleSearchBar(
             onExpandedChange = { expanded = it },
         ) {
 
- // SEARCH RESULTS -----------------
+            // SEARCH RESULTS -----------------
             Column(Modifier.verticalScroll(rememberScrollState())) {
                 searchResults.forEach { result -> // iterates through search result list & creates a list item for each result
                     ListItem(
@@ -252,5 +250,6 @@ fun SimpleSearchBar(
                 }
             }
         }
-    }
+    } // box
 } // simple search bar
+//  *********************************************************************************************************** END
