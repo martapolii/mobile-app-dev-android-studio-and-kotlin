@@ -52,6 +52,10 @@ import com.example.productapp.ui.viewmodel.ProductViewModel
 import java.time.Instant
 import java.time.ZoneId
 
+// Marta Polishchuk - 301432299
+// Assignment 3: Exercise 1 - Part 2 - Add 'quantity' field
+// * new code/changes are denoted via lines of ****************************************************
+// other files also modified for this change: Product.kt, ProductDatabase.kt, ProductViewModel.kt
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddProductScreen(
@@ -139,7 +143,7 @@ fun AddProductScreen(
                             .padding(bottom = 4.dp)
                     )
 
-                    // ID & Price
+                    // ID & Price & Quantity
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
@@ -163,7 +167,19 @@ fun AddProductScreen(
                                 .weight(1f)
                                 .padding(start = 4.dp)
                         )
-                    }
+
+                        // START ******************************************************************
+                        // added a text field to enter quantity - copied from ID & modified as needed
+                        OutlinedTextField(
+                            value = state.quantity,
+                            onValueChange = {viewModel.updateFormState(quantity = it) },
+                            label = { Text("Quantity") },
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(start = 4.dp)
+                        )
+                    }  // ********************************************************************** END
 
                     Spacer(Modifier.height(16.dp))
 
