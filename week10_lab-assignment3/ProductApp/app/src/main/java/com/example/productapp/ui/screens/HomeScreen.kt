@@ -86,6 +86,16 @@ fun HomeScreen(
             )
         }
     ) { paddingValues ->
+        Column(modifier = Modifier.padding(paddingValues)) {
+
+            // SEARCH BAR
+            // placing search bar outside of if/else block so that it is visible on all screens, independent of screen size
+            SimpleSearchBar( // *code for this composable at bottom of file*
+                textFieldState = searchState,
+                onSearch = {/* derived state above handles search */ },
+                searchResults = searchResults,
+                modifier = Modifier.fillMaxWidth().padding(8.dp)
+            )
 
 // PRODUCT LIST - EXPANDED SCREEN
         if (isExpandedScreen) {
