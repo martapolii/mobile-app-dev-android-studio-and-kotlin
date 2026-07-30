@@ -74,7 +74,8 @@ fun EditProductScreen(
             value = editedQuantity,
             onValueChange = { editedQuantity = it },
             label = { Text("Quantity") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            modifier = Modifier.fillMaxWidth()
         )
 
         // Category Dropdown
