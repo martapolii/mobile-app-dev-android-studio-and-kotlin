@@ -187,7 +187,6 @@ fun EditProductScreen(
                 viewModel.update(updatedProduct)
 
 
-                navController.popBackStack()
             }) {
                 Icon(Icons.Default.Edit, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
