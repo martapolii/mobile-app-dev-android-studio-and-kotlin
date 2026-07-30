@@ -164,6 +164,9 @@ fun EditProductScreen(
                 Text("Delete")
             }
 
+            // copied success state from add product screen **************************************
+            val success by viewModel.addProductSuccess.collectAsState()
+
             // save button
             Button(onClick = {
                 val updatedProduct = product.copy(
@@ -182,6 +185,16 @@ fun EditProductScreen(
                 Spacer(modifier = Modifier.width(8.dp))
                 Text("Save")
             }// button
+
+            // Copied from add product screen, so that you are redirected to the main page ONLY if the inputs were all valid ************************************
+            LaunchedEffect(success) {
+                if (success) {
+                    navController.navigate("home") {
+                        popUpTo("add") { inclusive = true } // Corrected route name
+                    }
+                    viewModel.resetSuccessState()
+                }
+            }
         } // row
     }// inner column
 }//outer column

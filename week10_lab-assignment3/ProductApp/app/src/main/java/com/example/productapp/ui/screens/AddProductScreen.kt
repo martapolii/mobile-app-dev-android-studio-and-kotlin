@@ -12,17 +12,16 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -43,7 +42,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -55,7 +53,7 @@ import java.time.ZoneId
 // Marta Polishchuk - 301432299
 // Assignment 3: Exercise 1 - Part 2 - Add 'quantity' field
 // * new code/changes are denoted via lines of ****************************************************
-// other files also modified for this change: Product.kt, ProductDatabase.kt, ProductViewModel.kt
+// other files also modified for this change: Product.kt, ProductDatabase.kt, ProductViewModel.kt, ProductItem.kt, EditProductScreen.kt
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddProductScreen(
@@ -248,7 +246,7 @@ fun AddProductScreen(
                     Spacer(Modifier.height(16.dp))
 
                     // Submit Button
-                    val success by viewModel.addProductSuccess.collectAsState()
+                    val success by viewModel.addProductSuccess.collectAsState() // copied to edit product screen
 
                     Button(
                         onClick = { viewModel.validateAndAddProduct() },
