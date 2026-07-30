@@ -86,6 +86,7 @@ class ProductViewModel(application: Application) : AndroidViewModel(application)
                     id = id!!,
                     name = state.name,
                     price = price!!,
+                    quantity = quantity!!, // added quantity property *********************************
                     deliveryDate = state.deliveryDate,
                     category = state.category,
                     isFavorite = state.isFavorite
