@@ -90,11 +90,13 @@ fun EditProductScreen(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             modifier = Modifier.fillMaxWidth()
         )
-// {viewModel.updateFormState(quantity = it) }
+
         // Added an edit Quantity field: ********************************************************************
         OutlinedTextField(
             value = editedQuantity,
-            onValueChange = { viewModel.updateFormState(editedQuantity = it ) },
+            onValueChange = {
+                editedQuantity = it // update local state as user adds input
+                viewModel.updateFormState(quantity = it ) }, //since I want to be able to validate this field, I need to update the value stored in the view model
             label = { Text("Quantity") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier.fillMaxWidth()
