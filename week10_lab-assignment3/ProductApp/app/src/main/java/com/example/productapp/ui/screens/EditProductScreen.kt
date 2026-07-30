@@ -17,6 +17,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.productapp.ui.viewmodel.ProductViewModel
 
+// Marta Polishchuk - 301432299
+// Assignment 3: Exercise 1 - Part 2 - Add 'quantity' field
+
 // Screen for editing an existing product
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
