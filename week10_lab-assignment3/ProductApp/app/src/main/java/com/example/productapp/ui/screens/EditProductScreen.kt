@@ -90,11 +90,11 @@ fun EditProductScreen(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             modifier = Modifier.fillMaxWidth()
         )
-
+// {viewModel.updateFormState(quantity = it) }
         // Added an edit Quantity field: ********************************************************************
         OutlinedTextField(
             value = editedQuantity,
-            onValueChange = { editedQuantity = it },
+            onValueChange = { viewModel.updateFormState(editedQuantity = it ) },
             label = { Text("Quantity") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier.fillMaxWidth()
