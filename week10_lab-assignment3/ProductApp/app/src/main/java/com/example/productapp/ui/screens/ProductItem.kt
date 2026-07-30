@@ -15,6 +15,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.example.productapp.data.Product
+import java.lang.Character.toString
+
+// Marta Polishchuk - 301432299
+// Assignment 3: Exercise 1 - Part 2 - Add 'quantity' field
 
 @Composable
 fun ProductItem(
@@ -39,6 +43,7 @@ fun ProductItem(
                 Text(product.name, style = MaterialTheme.typography.titleMedium)
                 Text("$${product.price}", style = MaterialTheme.typography.bodyMedium)
                 Text(product.category, style = MaterialTheme.typography.bodySmall)
+                Text(product.quantity.toString(), style = MaterialTheme.typography.bodySmall) // added quantity property to product card, so it's displayed in the main list for each item (https://www.reddit.com/r/learnandroid/comments/10rturi/how_to_put_integer_on_textview/)
             }
 
             // Action buttons
