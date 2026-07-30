@@ -105,6 +105,7 @@ class ProductViewModel(application: Application) : AndroidViewModel(application)
         id: String? = null,
         name: String? = null,
         price: String? = null,
+        quantity: String? = null, // added quantity property ***************************************
         deliveryDate: String? = null,
         category: String? = null,
         isFavorite: Boolean? = null
@@ -114,6 +115,7 @@ class ProductViewModel(application: Application) : AndroidViewModel(application)
                 id = id ?: current.id,
                 name = name ?: current.name,
                 price = price ?: current.price,
+                quantity = quantity ?: current.quantity, // added quantity property ****************
                 deliveryDate = deliveryDate ?: current.deliveryDate,
                 category = category ?: current.category,
                 isFavorite = isFavorite ?: current.isFavorite
