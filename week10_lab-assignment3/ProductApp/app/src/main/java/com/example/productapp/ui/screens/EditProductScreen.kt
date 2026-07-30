@@ -55,9 +55,6 @@ fun EditProductScreen(
 
     val state = viewModel.addProductState.collectAsState().value // needed this for state.errors to work (see card below)
 
-    // copied success state from add product screen **************************************
-    val success by viewModel.addProductSuccess.collectAsState()
-
     Column(modifier = Modifier.padding(16.dp)) {
         // copied this error card from 'add product screen', for quantity validation when editing products
         Card(
@@ -167,10 +164,12 @@ fun EditProductScreen(
                 Text("Delete")
             }
 
-
+            // Submit Button
+            val success by viewModel.addProductSuccess.collectAsState() // copied from add product screen
 
             // save button
             Button(onClick = {
+
                 // 1. create a copy of the object with the new values
                 val updatedProduct = product.copy(
                     name = editedName,

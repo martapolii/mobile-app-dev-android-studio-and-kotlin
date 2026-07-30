@@ -43,7 +43,7 @@ fun ProductItem(
                 Text(product.name, style = MaterialTheme.typography.titleMedium)
                 Text("$${product.price}", style = MaterialTheme.typography.bodyMedium)
                 Text(product.category, style = MaterialTheme.typography.bodySmall)
-                Text(product.quantity.toString(), style = MaterialTheme.typography.bodySmall) // added quantity property to product card, so it's displayed in the main list for each item (https://www.reddit.com/r/learnandroid/comments/10rturi/how_to_put_integer_on_textview/)
+                Text(product.quantity.toString(), style = MaterialTheme.typography.bodySmall) // added quantity property to product card, so it's displayed in the main list for each item (https://www.reddit.com/r/learnandroid/comments/10rturi/how_to_put_integer_on_textview/) ***********************************
             }
 
             // Action buttons
