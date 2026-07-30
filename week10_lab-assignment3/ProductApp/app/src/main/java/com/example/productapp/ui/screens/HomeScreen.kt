@@ -105,7 +105,8 @@ fun HomeScreen(
                     .padding(paddingValues)
             ) {
                 LazyColumn(modifier = Modifier.weight(1f)) {
-                    items(products) { product ->
+                        // items(products) { product ->
+                        items(filteredProducts) { product -> // using filtered list rather than just the 'products' list
                         ProductItem(
                             product = product,
                             onEdit = {
@@ -156,7 +157,8 @@ fun HomeScreen(
 
 
             LazyColumn(modifier = Modifier.padding(paddingValues)) {
-                items(products) { product ->
+                    // items(products) { product ->
+                    items(filteredProducts) { product -> // using filteredProducts
                     ProductItem(
                         product = product,
                         onEdit = { navController.navigate("edit/${product.id}") },
@@ -172,6 +174,7 @@ fun HomeScreen(
                 }
             } // lazy column
         } // reg. screen
+        } // column
     } // scaffold
 } // home screen
 
