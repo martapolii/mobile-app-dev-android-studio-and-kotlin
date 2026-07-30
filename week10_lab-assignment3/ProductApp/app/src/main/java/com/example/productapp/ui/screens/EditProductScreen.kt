@@ -170,7 +170,7 @@ fun EditProductScreen(
             // save button
             Button(onClick = {
 
-                // 1. create a copy of the object with the new values
+                // create a copy of the object with the new values
                 val updatedProduct = product.copy(
                     name = editedName,
                     price = editedPrice.toDoubleOrNull() ?: 0.0,
@@ -179,8 +179,7 @@ fun EditProductScreen(
                     category = editedCategory,
                     isFavorite = editedFavorite
                 )
-
-                // 2. validate the inputs - NOT WORKING CORRECTLY
+                // validate the inputs - NOT WORKING CORRECTLY
                 viewModel.validateProduct(updatedProduct) // calling a custom validation function for this screen (in View model), and passing the updated product object as the argument
 
 
