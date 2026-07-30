@@ -20,9 +20,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.productapp.ui.viewmodel.ProductViewModel
 
-// Marta Polishchuk - 301432299
-// Assignment 3: Exercise 1 - Part 2 - Add 'quantity' field
-
 // Screen for editing an existing product
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,7 +53,29 @@ fun EditProductScreen(
     var expanded by remember { mutableStateOf(false) } // State for dropdown expansion
     val categories = listOf("Electronics", "Appliances", "Cell Phone", "Media")
 
+    val state = viewModel.addProductState.collectAsState().value // needed this for state.errors to work (see card below)
+
     Column(modifier = Modifier.padding(16.dp)) {
+        // copied this error card from 'add product screen', for quantity validation when editing products
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
+        ) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                // Display errors
+                state.errors.forEach { error ->
+                    Text(
+                        text = error,
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier.padding(bottom = 4.dp)
+                    )
+                }
+            } // column
+        }// card
+
         OutlinedTextField(
             value = editedName,
             onValueChange = { editedName = it },

@@ -116,7 +116,7 @@ fun AddProductScreen(
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Card(
+            Card( // copied this card into the edit product screen
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp),
