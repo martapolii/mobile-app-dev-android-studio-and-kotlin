@@ -106,38 +106,18 @@ class ProductViewModel(application: Application) : AndroidViewModel(application)
         val state = _addProductState.value
         val errors = mutableListOf<String>()
 
-        // ID validation (3 digits, 101-999)
-        val id = state.id.toIntOrNull()
-        if (id == null || id !in 101..999) errors.add("Invalid ID (101-999)")
-
-        // Price validation
-        val price = state.price.toDoubleOrNull()
-        if (price == null || price <= 0) errors.add("Price must be positive")
-
         // Quantity Validation ( quantity > 0 )*****************************************************
         // copied from ID validation
-        val quantity = state.quantity.toIntOrNull()
-        if (quantity == null || quantity !in 1..999) errors.add("Invalid Quantity (1-999)")
+        val quantity = product.quantity
+        if (product.quantity !in 1..999) errors.add("Invalid Quantity (1-999)")
+        // (only validating quantity as it's the only one relevant to the assignment)
 
-        // Date validation
-        val currentDate = LocalDate.now()
-        val deliveryDate = try {
-            LocalDate.parse(state.deliveryDate)
-        } catch (e: Exception) {
-            null
-        }
-        if (deliveryDate == null || deliveryDate.isBefore(currentDate)) {
-            errors.add("Invalid delivery date")
-        }
-
-        // Category validation
-        if (state.category !in listOf("Electronics", "Appliances", "Cell Phone", "Media")) {
-            errors.add("Select a category")
-        }
 
         // if there are no errors, update the product state to successful -> user will be redirected to home page
         if (errors.isEmpty()) {
-            repository.updateProduct(product)
+            viewModelScope.launch { // launching a coroutine to call the repo to update the product
+                repository.updateProduct(product)
+            }
             _addProductState.update { it.copy(errors = emptyList()) }
             _addProductSuccess.value = true  // Set success to true
         } else { // if there are errors, do not redirect user, success is set to false
