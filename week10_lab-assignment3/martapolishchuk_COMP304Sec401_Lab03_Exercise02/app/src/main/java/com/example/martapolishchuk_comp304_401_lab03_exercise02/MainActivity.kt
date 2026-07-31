@@ -6,42 +6,48 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
 import com.example.martapolishchuk_comp304_401_lab03_exercise02.ui.theme.Martapolishchuk_COMP304_401_Lab03_Exercise02Theme
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             Martapolishchuk_COMP304_401_Lab03_Exercise02Theme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                    // Get window size class for responsive layouts
+                    val windowSizeClass = calculateWindowSizeClass(this)
+                    // Create navigation controller
+                    val navController = rememberNavController()
+
+                // main app content
+                AppContent(
+                    windowSizeClass = windowSizeClass,
+                    navController = navController
+                )
             }
         }
     }
-}
+} // main activity
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    Martapolishchuk_COMP304_401_Lab03_Exercise02Theme {
-        Greeting("Android")
+private fun AppContent(
+    windowSizeClass: androidx.compose.material3.windowsizeclass.WindowSizeClass,
+    navController: androidx.navigation.NavHostController
+) {
+    MaterialTheme {
+        AppNavigation(
+            windowSizeClass = windowSizeClass,
+            navController = navController
+        )
     }
 }
