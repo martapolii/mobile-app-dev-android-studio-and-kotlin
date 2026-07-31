@@ -4,18 +4,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.navigation.compose.rememberNavController
 import com.example.martapolishchuk_comp304_401_lab03_exercise02.ui.navigation.AppNavigation
+import com.example.martapolishchuk_comp304_401_lab03_exercise02.ui.screens.LocalActivity
 import com.example.martapolishchuk_comp304_401_lab03_exercise02.ui.theme.Martapolishchuk_COMP304_401_Lab03_Exercise02Theme
 
 class MainActivity : ComponentActivity() {
@@ -25,16 +21,18 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Martapolishchuk_COMP304_401_Lab03_Exercise02Theme {
+                CompositionLocalProvider(LocalActivity provides this) {
                     // Get window size class for responsive layouts
                     val windowSizeClass = calculateWindowSizeClass(this)
                     // Create navigation controller
                     val navController = rememberNavController()
 
-                // main app content
-                AppContent(
-                    windowSizeClass = windowSizeClass,
-                    navController = navController
-                )
+                    // main app content
+                    AppContent(
+                        windowSizeClass = windowSizeClass,
+                        navController = navController
+                    )
+                }
             }
         }
     }
