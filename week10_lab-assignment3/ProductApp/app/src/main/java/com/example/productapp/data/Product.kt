@@ -11,7 +11,7 @@ data class Product(
     @PrimaryKey val id: Int, // every table must have a primary key
     val name: String,
     val price: Double,
-    val quantity: Int, // added quantity property ***************************
+    val quantity: Int, // added quantity property **************************************************
     val deliveryDate: String,
     val category: String,
     val isFavorite: Boolean

@@ -1,12 +1,14 @@
 // Marta Polishchuk - 301432299
-// Assignment 3: Exercise 1 - Part 2 - Add 'quantity' field
+// Assignment 3: Exercise 1 - Part 2 & 3 - Add 'quantity' field and a cancel button
 
 package com.example.productapp.ui.screens
 
+import android.R
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.*
@@ -46,17 +48,18 @@ fun EditProductScreen(
 
     var editedName by remember { mutableStateOf(product.name) }
     var editedPrice by remember { mutableStateOf(product.price.toString()) }
-    // added variable to store updated quantity: *************************************************
-    var editedQuantity by remember { mutableStateOf(product.quantity.toString()) } // converted value to a string for editing
     var editedCategory by remember { mutableStateOf(product.category) }
     var editedFavorite by remember { mutableStateOf(product.isFavorite) }
     var expanded by remember { mutableStateOf(false) } // State for dropdown expansion
     val categories = listOf("Electronics", "Appliances", "Cell Phone", "Media")
 
+    // *************************************************************************************** START
+    // added variable to store updated quantity:
+    var editedQuantity by remember { mutableStateOf(product.quantity.toString()) } // converted value to a string for editing
     val state = viewModel.addProductState.collectAsState().value // needed this for state.errors to work (see card below)
 
     Column(modifier = Modifier.padding(16.dp)) {
-        // copied this error card from 'add product screen', for quantity validation when editing products
+        // copied this error card from 'add product screen', for quantity validation when editing products:
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -75,6 +78,7 @@ fun EditProductScreen(
                 }
             } // column
         }// card
+        // ************************************************************************************* END
 
         OutlinedTextField(
             value = editedName,
@@ -91,7 +95,7 @@ fun EditProductScreen(
             modifier = Modifier.fillMaxWidth()
         )
 
-        // Added an edit Quantity field: ********************************************************************
+        // Added an edit Quantity field: ***************************************************** START
         OutlinedTextField(
             value = editedQuantity,
             onValueChange = {
@@ -100,7 +104,7 @@ fun EditProductScreen(
             label = { Text("Quantity") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier.fillMaxWidth()
-        )
+        ) // *********************************************************************************** END
 
         // Category Dropdown
         ExposedDropdownMenuBox(
@@ -154,7 +158,7 @@ fun EditProductScreen(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
 
-            // added a cancel button ***************************************************************
+            // added a cancel button ********************************************************* START
             Button(
                 onClick = {
                     navController.popBackStack() // just want to redirect on click, not update anything
@@ -163,7 +167,7 @@ fun EditProductScreen(
                     Icon(Icons.Default.Cancel, contentDescription = null)
                     Spacer(modifier = Modifier.width(8.dp))
                     Text("Cancel")
-            } // ***********************************************************************************
+            } // ******************************************************************************* END
 
             // delete button
             Button(
@@ -178,8 +182,8 @@ fun EditProductScreen(
                 Text("Delete")
             }
 
-            // Submit Button
-            val success by viewModel.addProductSuccess.collectAsState() // copied from add product screen
+            // boolean for the state of the form when submitted - if false then that means there were errors - pass this to function at the bottom of page to determine whether user should be redirected to the home page, or remain on the edit page (copied from add product screen)
+            val success by viewModel.addProductSuccess.collectAsState() // *************************
 
             // save button
             Button(onClick = {
@@ -188,15 +192,13 @@ fun EditProductScreen(
                 val updatedProduct = product.copy(
                     name = editedName,
                     price = editedPrice.toDoubleOrNull() ?: 0.0,
-                    // added quantity so it updates when button is clicked: ****************************************
+                    // added quantity so it updates when button is clicked: ************************
                     quantity = editedQuantity.toInt(), // convert back to int bc quantity is stored as int
                     category = editedCategory,
                     isFavorite = editedFavorite
                 )
-                // validate the inputs - NOT WORKING CORRECTLY
-                viewModel.validateProduct(updatedProduct) // calling a custom validation function for this screen (in View model), and passing the updated product object as the argument
-
-
+                // calling a custom validation function for this screen (in View model), and passing the updated product object as the argument: (only validates quantity input)
+                viewModel.validateProduct(updatedProduct) // ***************************************
 
             }) {
                 Icon(Icons.Default.Edit, contentDescription = null)
@@ -204,8 +206,8 @@ fun EditProductScreen(
                 Text("Save")
             }// button
 
-            // Copied from add product screen, so that you are redirected to the main page ONLY if the inputs were all valid ************************************
-            LaunchedEffect(success) {
+            // Copied from add product screen, so that you are redirected to the main page ONLY if the inputs were all valid:
+            LaunchedEffect(success) { // ****************************************************
                 if (success) {
                     navController.navigate("home") {
                         popUpTo("add") { inclusive = true } // Corrected route name

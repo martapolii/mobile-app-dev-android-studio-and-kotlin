@@ -52,8 +52,10 @@ import java.time.ZoneId
 
 // Marta Polishchuk - 301432299
 // Assignment 3: Exercise 1 - Part 2 - Add 'quantity' field
-// * new code/changes are denoted via lines of ****************************************************
+
+// * new code/changes are denoted via  "***********************************************************"
 // other files also modified for this change: Product.kt, ProductDatabase.kt, ProductViewModel.kt, ProductItem.kt, EditProductScreen.kt
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddProductScreen(
@@ -166,7 +168,7 @@ fun AddProductScreen(
                                 .padding(start = 4.dp)
                         )
 
-                        // START ******************************************************************
+                    // *********************************************************************** START
                         // added a text field to enter quantity - copied from ID & modified as needed
                         OutlinedTextField(
                             value = state.quantity,
@@ -246,7 +248,7 @@ fun AddProductScreen(
                     Spacer(Modifier.height(16.dp))
 
                     // Submit Button
-                    val success by viewModel.addProductSuccess.collectAsState() // copied to edit product screen
+                    val success by viewModel.addProductSuccess.collectAsState()
 
                     Button(
                         onClick = { viewModel.validateAndAddProduct() },

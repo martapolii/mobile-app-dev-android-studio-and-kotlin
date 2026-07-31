@@ -52,7 +52,7 @@ fun HomeScreen(
     val isExpandedScreen = windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact
     var selectedProduct by remember { mutableStateOf<Product?>(null) }
 
-    // START *********************************************************************************************************
+    // *************************************************************************************** START
     // SEARCH BAR RELATED VARIABLES:
     val searchState = rememberTextFieldState() // added a variable to store state of search text field
 
@@ -78,7 +78,7 @@ fun HomeScreen(
                 .take(5) // display up to 5 results
         }
     }//search results
-    // *********************************************************************************************************** END
+    // ***************************************************************************************** END
 
     Scaffold(
         topBar = {
@@ -95,7 +95,7 @@ fun HomeScreen(
             )
         }
     ) { paddingValues ->
-        // START *********************************************************************************************************
+        // *********************************************************************************** START
         Column(modifier = Modifier.padding(paddingValues)) { // wrapped everything in a column so I could add search bar outside of if/else block
 
             // SEARCH BAR
@@ -106,7 +106,7 @@ fun HomeScreen(
                 searchResults = searchResults,
                 modifier = Modifier.fillMaxWidth().padding(8.dp)
             )
-            //  *********************************************************************************************************** END
+            // ********************************************************************************* END
 
             if (isExpandedScreen) {
                 Row(
@@ -170,7 +170,7 @@ fun HomeScreen(
             } else {
                 LazyColumn(modifier = Modifier.padding(paddingValues)) {
                     // items(products) { product ->
-                    items(filteredProducts) { product -> // using filteredProducts *****************************************
+                    items(filteredProducts) { product -> // using filteredProducts *****************
                         ProductItem(
                             product = product,
                             onEdit = { navController.navigate("edit/${product.id}") },
@@ -191,7 +191,7 @@ fun HomeScreen(
 } // home screen
 
 
-// START *********************************************************************************************************
+// ******************************************************************************************* START
 
 // SEARCH BAR COMPOSABLE
 // Code used from: https://developer.android.com/develop/ui/compose/components/search-bar?authuser=1, example 1: "Search bar with suggestions"
@@ -212,12 +212,12 @@ fun SimpleSearchBar(
             .fillMaxWidth() // this is the only code I changed. Previously would take up most of the screen *************
             .semantics { isTraversalGroup = true } // for accessibility (screen readers)
     ) {
+        // SEARCH BAR
         SearchBar(
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .semantics { traversalIndex = 0f },// for accessibility (screen readers)
 
-            // SEARCH BAR ----------------------
             inputField = {
                 SearchBarDefaults.InputField( // creates input field + handles changes to the query
                     query = textFieldState.text.toString(), // query text to be shown in the input field
@@ -235,7 +235,7 @@ fun SimpleSearchBar(
             onExpandedChange = { expanded = it },
         ) {
 
-            // SEARCH RESULTS -----------------
+            // SEARCH RESULTS/SUGGESTIONS
             Column(Modifier.verticalScroll(rememberScrollState())) {
                 searchResults.forEach { result -> // iterates through search result list & creates a list item for each result
                     ListItem(
@@ -252,4 +252,4 @@ fun SimpleSearchBar(
         }
     } // box
 } // simple search bar
-//  *********************************************************************************************************** END
+// ********************************************************************************************* END

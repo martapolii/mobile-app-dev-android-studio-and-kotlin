@@ -34,7 +34,7 @@ abstract class ProductDatabase : RoomDatabase() {
                             // Prepopulate database with sample data on first creation
                             CoroutineScope(Dispatchers.IO).launch {
                                 getDatabase(context).productDao().insertSampleProducts(
-                                    listOf( // *************************************** added quantity property to sample products
+                                    listOf( // added quantity property to sample products **********
                                         Product(101, "Phone", 299.99, 15, "2025-04-01", "Electronics", false),
                                         Product(102, "Laptop", 999.99, 5, "2025-04-02", "Electronics", true),
                                         Product(103, "Microwave", 149.99,10, "2025-04-03", "Appliances", false)
