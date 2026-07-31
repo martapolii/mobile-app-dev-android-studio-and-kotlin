@@ -60,11 +60,11 @@ class MovieViewModel(application: Application) : AndroidViewModel(application) {
 
         // title
         val title = state.title
-        if ( title == null ) errors.add("Enter movie title")
+        if ( title.isEmpty() ) errors.add("Enter movie title")
 
         // director
         val director = state.director
-        if ( director == null ) errors.add("Enter Director name")
+        if ( director.isEmpty() ) errors.add("Enter Director name")
 
         // Price of DVD
         val price = state.price.toDoubleOrNull()
@@ -117,19 +117,19 @@ class MovieViewModel(application: Application) : AndroidViewModel(application) {
 
         // ID validation (3 digits, 101-999)
         val id = movie.id
-        if (id == null || id !in 101..999) errors.add("Invalid ID (101-999)")
+        if (id !in 101..999) errors.add("Invalid ID (101-999)")
 
         // title
         val title = movie.title
-        if ( title == null ) errors.add("Enter movie title")
+        if ( title.isEmpty() ) errors.add("Enter movie title")
 
         // director
         val director = movie.director
-        if ( director == null ) errors.add("Enter Director name")
+        if ( director.isEmpty()) errors.add("Enter Director name")
 
         // Price of DVD
         val price = movie.price
-        if (price == null || price <= 0) errors.add("Price must be positive")
+        if ( price <= 0) errors.add("Price must be positive")
 
         // release date validation
         val currentDate = LocalDate.now()
@@ -144,7 +144,7 @@ class MovieViewModel(application: Application) : AndroidViewModel(application) {
 
         // duration validation (can not be 0 or negative)
         val duration = movie.duration
-        if (duration == null || duration !in 1..500) errors.add("Invalid duration (1-500)")
+        if ( duration !in 1..500) errors.add("Invalid duration (1-500)")
 
         // genre validation
         if (movie.genre !in listOf("Family", "Comedy", "Thriller", "Action", "Drama")) {
@@ -169,7 +169,7 @@ class MovieViewModel(application: Application) : AndroidViewModel(application) {
     fun updateFormState(
         id: String? = null,
         title: String? = null,
-        director: String,
+        director: String? = null,
         price: String? = null,
         releaseDate: String? = null,
         duration: String? = null,
