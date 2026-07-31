@@ -190,9 +190,7 @@ fun HomeScreen(
     } // scaffold
 } // home screen
 
-
 // ******************************************************************************************* START
-
 // SEARCH BAR COMPOSABLE
 // Code used from: https://developer.android.com/develop/ui/compose/components/search-bar?authuser=1, example 1: "Search bar with suggestions"
 @OptIn(ExperimentalMaterial3Api::class)
