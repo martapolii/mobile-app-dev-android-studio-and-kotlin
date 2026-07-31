@@ -6,16 +6,12 @@ plugins {
 
 android {
     namespace = "com.example.martapolishchuk_comp304_401_lab03_exercise02"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.example.martapolishchuk_comp304_401_lab03_exercise02"
-        minSdk = 36
-        targetSdk = 36
+        minSdk = 26
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0"
 

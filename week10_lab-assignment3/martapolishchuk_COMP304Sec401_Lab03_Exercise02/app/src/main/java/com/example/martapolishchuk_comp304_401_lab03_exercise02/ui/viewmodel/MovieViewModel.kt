@@ -138,7 +138,7 @@ class MovieViewModel(application: Application) : AndroidViewModel(application) {
         } catch (e: Exception) {
             null
         }
-        if (releaseDate == null || releaseDate.isBefore(currentDate)) {
+        if (releaseDate == null ) {
             errors.add("Invalid release date")
         }
 
