@@ -14,8 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -49,7 +47,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.martapolishchuk_COMP304Sec401_Lab03_Exercise1.ui.viewmodel.ProductViewModel
 import com.example.martapolishchuk_comp304_401_lab03_exercise02.ui.viewmodel.MovieViewModel
 import java.time.Instant
 import java.time.ZoneId
@@ -82,7 +79,7 @@ fun AddMovieScreen (
                                 .atZone(ZoneId.systemDefault())
                                 .toLocalDate()
                                 .toString()
-                            viewModel.updateFormState(deliveryDate = date)
+                            viewModel.updateFormState(releaseDate = date)
                         }
                         showDatePicker = false
                     }
@@ -95,15 +92,7 @@ fun AddMovieScreen (
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Add a New Product") },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back to Home"
-                        )
-                    }
-                }
+                title = { Text("Add New Movie") },
             )
         }
     ) { paddingValues ->
@@ -115,7 +104,7 @@ fun AddMovieScreen (
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Card( // copied this card into the edit product screen
+            Card(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp),
@@ -132,77 +121,84 @@ fun AddMovieScreen (
                         )
                     }
 
-                    // Name Field (New)
+                    // ID
                     OutlinedTextField(
-                        value = state.name,
-                        onValueChange = { viewModel.updateFormState(name = it) },
-                        label = { Text("Product Name") },
+                        value = state.id,
+                        onValueChange = { viewModel.updateFormState(id = it) },
+                        label = { Text("Movie ID") },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(end = 4.dp)
+                    )
+                    Spacer(Modifier.height(16.dp))
+
+                    // Title
+                    OutlinedTextField(
+                        value = state.title,
+                        onValueChange = { viewModel.updateFormState(title = it) },
+                        label = { Text("Title") },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 4.dp)
                     )
-
-                    // ID & Price & Quantity
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        OutlinedTextField(
-                            value = state.id,
-                            onValueChange = { viewModel.updateFormState(id = it) },
-                            label = { Text("ID") }, // shortened to make the fields fit better
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                            modifier = Modifier
-                                .weight(1f)
-                                .padding(end = 4.dp)
-                        )
-
-                        OutlinedTextField(
-                            value = state.price,
-                            onValueChange = { viewModel.updateFormState(price = it) },
-                            label = { Text("Price") },
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                            modifier = Modifier
-                                .weight(1f)
-                                .padding(start = 4.dp)
-                        )
-
-                        // *********************************************************************** START
-                        // added a text field to enter quantity - copied from ID & modified as needed
-                        OutlinedTextField(
-                            value = state.quantity,
-                            onValueChange = {viewModel.updateFormState(quantity = it) },
-                            label = { Text("Quantity") },
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                            modifier = Modifier
-                                .weight(1f)
-                                .padding(start = 4.dp)
-                        )
-                    }  // ********************************************************************** END
-
                     Spacer(Modifier.height(16.dp))
 
-                    // Date Picker
+                    // Director
+                    OutlinedTextField(
+                        value = state.director,
+                        onValueChange = { viewModel.updateFormState(director = it) },
+                        label = { Text("Director") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 4.dp)
+                    )
+                    Spacer(Modifier.height(16.dp))
+
+                    // Price
+                    OutlinedTextField(
+                        value = state.price,
+                        onValueChange = { viewModel.updateFormState(price = it) },
+                        label = { Text("Price") },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(start = 4.dp)
+                    )
+                    Spacer(Modifier.height(16.dp))
+
+                    // Release Date - date picker
                     OutlinedButton(
                         onClick = { showDatePicker = true },
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text(state.deliveryDate.ifEmpty { "Select Delivery Date" })
+                        Text(state.releaseDate.ifEmpty { "Select Release Date" })
                     }
-
                     Spacer(Modifier.height(16.dp))
 
-                    // Category Dropdown
+                    // Duration (minutes)
+                    OutlinedTextField(
+                        value = state.duration,
+                        onValueChange = { viewModel.updateFormState(duration = it) },
+                        label = { Text("Duration (minutes)") },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(start = 4.dp)
+                    )
+                    Spacer(Modifier.height(16.dp))
+
+                    // Genre - drop down
                     ExposedDropdownMenuBox(
                         expanded = expanded,
                         onExpandedChange = { expanded = it },
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         OutlinedTextField(
-                            value = state.category,
+                            value = state.genre,
                             onValueChange = {},
                             readOnly = true,
-                            label = { Text("Category") },
+                            label = { Text("Genre") },
                             trailingIcon = {
                                 ExposedDropdownMenuDefaults.TrailingIcon(
                                     expanded = expanded
@@ -217,26 +213,25 @@ fun AddMovieScreen (
                             expanded = expanded,
                             onDismissRequest = { expanded = false }
                         ) {
-                            categories.forEach { category ->
+                            genres.forEach { genre ->
                                 DropdownMenuItem(
-                                    text = { Text(category) },
+                                    text = { Text(genre) },
                                     onClick = {
-                                        viewModel.updateFormState(category = category)
+                                        viewModel.updateFormState(genre = genre)
                                         expanded = false
                                     }
                                 )
                             }
                         }
                     }
-
                     Spacer(Modifier.height(16.dp))
 
-                    // Favorite Toggle
+                    // Favorite toggle
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text("Favorite?")
+                        Text("Favorite")
                         Spacer(Modifier.weight(1f))
                         Switch(
                             checked = state.isFavorite,
@@ -246,31 +241,40 @@ fun AddMovieScreen (
 
                     Spacer(Modifier.height(16.dp))
 
-                    // Submit Button
-                    val success by viewModel.addProductSuccess.collectAsState()
-
-                    Button(
-                        onClick = { viewModel.validateAndAddProduct() },
-                        modifier = Modifier.fillMaxWidth()
+                    // buttons row
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Text("Add Product")
-                    }
-
-                    // Observe success and navigate
-                    LaunchedEffect(success) {
-                        if (success) {
-                            navController.navigate("home") {
-                                popUpTo("add") { inclusive = true } // Corrected route name
-                            }
-                            viewModel.resetSuccessState()
+                        // cancel button
+                        Button(
+                            onClick = {navController.popBackStack()}, //return to last visited screen
+                        ) {
+                            Text("Cancel")
                         }
-                    }
-                }
-            }
+
+                        // save button
+                        val success by viewModel.addMovieSuccess.collectAsState()
+
+                        Button(
+                            onClick = { viewModel.validateAndAddMovie() },
+                        ) {
+                            Text("Save")
+                        }
+
+                        // Observe success and navigate
+                        LaunchedEffect(success) {
+                            if (success) {
+                                navController.navigate("home") {
+                                    popUpTo("add") { inclusive = true } // Corrected route name
+                                }
+                                viewModel.resetSuccessState()
+                            }
+                        }
+
+                    }// row
+                }// column
+            }// card
         }
     } // scaffold
-
-
-
-
 }
