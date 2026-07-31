@@ -118,6 +118,8 @@ fun AddMovieScreen (
                             modifier = Modifier.padding(bottom = 4.dp)
                         )
                     }
+                }
+            }//card
 
                     // ID
                     OutlinedTextField(
@@ -126,7 +128,7 @@ fun AddMovieScreen (
                         label = { Text("Movie ID") },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         modifier = Modifier
-                            .weight(1f)
+                            .fillMaxWidth()
                             .padding(end = 4.dp)
                     )
                     Spacer(Modifier.height(16.dp))
@@ -160,7 +162,7 @@ fun AddMovieScreen (
                         label = { Text("Price") },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                         modifier = Modifier
-                            .weight(1f)
+                            .fillMaxWidth()
                             .padding(start = 4.dp)
                     )
                     Spacer(Modifier.height(16.dp))
@@ -181,7 +183,7 @@ fun AddMovieScreen (
                         label = { Text("Duration (minutes)") },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         modifier = Modifier
-                            .weight(1f)
+                            .fillMaxWidth()
                             .padding(start = 4.dp)
                     )
                     Spacer(Modifier.height(16.dp))
@@ -271,8 +273,8 @@ fun AddMovieScreen (
                         }
 
                     }// row
-                }// column
-            }// card
+
+
         }
     } // scaffold
 }
