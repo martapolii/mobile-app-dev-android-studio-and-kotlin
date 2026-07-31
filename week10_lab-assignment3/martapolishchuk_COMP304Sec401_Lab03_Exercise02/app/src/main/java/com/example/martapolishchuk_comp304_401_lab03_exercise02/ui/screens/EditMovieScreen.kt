@@ -5,11 +5,6 @@ package com.example.martapolishchuk_comp304_401_lab03_exercise02.ui.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.Cancel
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -51,7 +46,7 @@ fun EditMovieScreen (
     var editedDirector by remember { mutableStateOf(movie.director) }
     var editedPrice by remember { mutableStateOf(movie.price.toString()) }
     var editedReleaseDate by remember { mutableStateOf(movie.releaseDate) }
-    var editedDuration by remember { mutableStateOf(movie.duration) }
+    var editedDuration by remember { mutableStateOf(movie.duration.toString()) }
     var expanded by remember { mutableStateOf(false) } // State for dropdown expansion
     var editedGenre by remember {mutableStateOf(movie.genre)}
     val genres = listOf("Family", "Comedy", "Thriller", "Action", "Drama")
@@ -135,7 +130,7 @@ fun EditMovieScreen (
         OutlinedButton(
             onClick = { showDatePicker = true },
             modifier = Modifier.fillMaxWidth(),
-            value = editedReleaseDate,
+
         ) {
             Text(state.releaseDate.ifEmpty { "Select Release Date" })
         }
@@ -164,9 +159,8 @@ fun EditMovieScreen (
                 readOnly = true,
                 label = { Text("Select Genre") },
                 trailingIcon = {
-                    Icon(
-                        imageVector = Icons.Default.ArrowDropDown,
-                        contentDescription = "Genre Dropdown"
+                    ExposedDropdownMenuDefaults.TrailingIcon(
+                        expanded = expanded
                     )
                 },
                 modifier = Modifier
@@ -211,7 +205,6 @@ fun EditMovieScreen (
                     navController.popBackStack() // just want to redirect on click, not update anything
                 },
             ){
-                Icon(Icons.Default.Cancel, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text("Cancel")
             }
@@ -227,7 +220,7 @@ fun EditMovieScreen (
                     director = editedDirector,
                     price = editedPrice.toDoubleOrNull() ?: 0.0,
                     releaseDate = editedReleaseDate,
-                    duration = editedDuration.toInt(), // convert back to int bc duration is stored as int
+                    duration = editedDuration.toIntOrNull() ?: 0,  // convert back to int bc duration is stored as int
                     genre = editedGenre,
                     isFavorite = editedFavorite
                 )
@@ -235,7 +228,6 @@ fun EditMovieScreen (
                 viewModel.validateMovie(updatedMovie)
 
             }) {
-                Icon(Icons.Default.Edit, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text("Save")
             }// button
