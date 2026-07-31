@@ -6,7 +6,7 @@ plugins {
 android {
     namespace = "com.example.martapolishchuk_comp304_401_lab03_exercise02"
     compileSdk {
-        version = release(37) {
+        version = release(36) {
             minorApiLevel = 1
         }
     }
@@ -54,8 +54,9 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.room.common.jvm)
-    implementation(libs.androidx.room3.runtime)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    annotationProcessor(libs.androidx.room.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)

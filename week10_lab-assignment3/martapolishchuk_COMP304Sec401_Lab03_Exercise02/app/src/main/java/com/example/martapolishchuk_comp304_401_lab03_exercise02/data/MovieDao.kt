@@ -11,7 +11,7 @@ import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
-// Data Access Object for product-related database operations
+// Data Access Object for movie-related database operations
 @Dao
 interface MovieDao {
     @Query("SELECT * FROM movies")
@@ -24,11 +24,11 @@ interface MovieDao {
     suspend fun update(movie: Movie) // Updates an existing movie
 
     @Delete
-    suspend fun delete(movie: Movie) // Deletes a product
+    suspend fun delete(movie: Movie) // Deletes a movie
 
     @Query("SELECT * FROM movies WHERE isFavorite = 1")
     fun getFavorites(): Flow<List<Movie>> // Retrieves favorite movies as a Flow
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertSampleProducts(products: List<Movie>) // Inserts sample data, ignoring conflicts
+    suspend fun insertSampleMovies(movies: List<Movie>) // Inserts sample data, ignoring conflicts
 }

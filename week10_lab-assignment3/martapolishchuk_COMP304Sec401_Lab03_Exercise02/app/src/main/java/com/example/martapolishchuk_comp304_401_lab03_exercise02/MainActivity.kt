@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
+import com.example.martapolishchuk_comp304_401_lab03_exercise02.ui.navigation.AppNavigation
 import com.example.martapolishchuk_comp304_401_lab03_exercise02.ui.theme.Martapolishchuk_COMP304_401_Lab03_Exercise02Theme
 
 class MainActivity : ComponentActivity() {
